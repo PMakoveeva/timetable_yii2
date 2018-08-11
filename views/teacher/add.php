@@ -30,6 +30,6 @@ use yii\helpers\Html;
 <?php $form = ActiveForm::begin(['options' => ['class' => 'form-horizontal']])?>
 <?= $form->field($model, 'name')?>
 
-<?=Html::submitButton('Добавить', ['class' => 'btn btn-success'])?>
+<?=Html::submitButton('Добавить', ['class' => 'btn btn-success form-group'])?>
 <?php ActiveForm::end()?>
 
