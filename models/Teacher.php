@@ -20,4 +20,6 @@ class Teacher extends ActiveRecord
         return $this->hasMany(Subject::className(), ['teacher' => 'id']);
     }
 
+
+
 }
