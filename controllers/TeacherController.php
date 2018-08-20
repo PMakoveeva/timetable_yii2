@@ -78,4 +78,21 @@ class TeacherController extends AppController
         }
         return $this->render('update',['name' => $name, 'teacher'=>$teacher]);
     }
+
+    function actionDelete($id){
+        $query = AddTeacherForm::find();
+        $teacher = $query->where(['id' => $id])->one();
+        $teacher->delete();
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => Teacher::find(), // Запрос на выборку опубликованных новостей
+            'sort' => [ // сортировка по умолчанию
+                'defaultOrder' => ['name' => SORT_ASC],
+            ],
+            'pagination' => [ // постраничная разбивка
+                'pageSize' => 10, // 10 новостей на странице
+            ],
+        ]);
+      return $this->render('absent', ['dataProvider' =>$dataProvider]);
+    }
 }
