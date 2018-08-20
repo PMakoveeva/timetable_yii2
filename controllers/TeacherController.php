@@ -9,11 +9,10 @@
 
 namespace app\controllers;
 use app\models\Teacher;
-use app\models\UpdateTeacherForm;
 use Yii;
 use yii\data\ActiveDataProvider;
 
-use app\models\AddTeacherForm;
+use app\models\TeacherForm;
 class TeacherController extends AppController
 {
 
@@ -65,7 +64,7 @@ class TeacherController extends AppController
             $this->debug($_POST);
             return 'test';
         }
-        $query = AddTeacherForm::find();
+        $query = TeacherForm::find();
         $teacher = $query->where(['id' => $id])->one();
         $name = $teacher->name;
         if ($teacher->load(Yii::$app->request->post())) {
@@ -80,9 +79,11 @@ class TeacherController extends AppController
     }
 
     function actionDelete($id){
-        $query = AddTeacherForm::find();
+        $query = TeacherForm::find();
         $teacher = $query->where(['id' => $id])->one();
-        $teacher->delete();
+        if($teacher!=null) {
+            $teacher->delete();
+        }
 
         $dataProvider = new ActiveDataProvider([
             'query' => Teacher::find(), // Запрос на выборку опубликованных новостей
