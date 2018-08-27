@@ -59,8 +59,8 @@ AppAsset::register($this);
                 ['label' => 'Изменить', 'url' => ['/cabinet/edit']],
             ]],
             ['label' => 'Классы',  'items' => [
-                ['label' => 'Добавить', 'url' => ['/class/add']],
-                ['label' => 'Изменить', 'url' => ['/class/edit']],
+                ['label' => 'Добавить', 'url' => ['/grade/add']],
+                ['label' => 'Все классы', 'url' => ['/grade/index']],
             ]],
             /*['label' => 'About', 'url' => ['/site/about']],
             ['label' => 'Contact', 'url' => ['/site/contact']],

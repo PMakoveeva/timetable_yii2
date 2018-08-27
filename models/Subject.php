@@ -20,5 +20,18 @@ class Subject extends ActiveRecord
     public function getTeacher(){
         return $this->hasOne(Teacher::className(), ['id' => 'teacher']);
     }
+    public function getParent()
+    {
+        return $this->hasOne(Subject::className(), ['id' => 'subject']);
+    }
+
+    public function getParentName()
+    {
+        $parent = $this->parent;
+
+        return $parent ? $parent->name : '';
+    }
+
+
 
 }

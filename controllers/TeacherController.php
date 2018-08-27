@@ -23,7 +23,7 @@ class TeacherController extends AppController
             return 'test';
         }
 
-        $model = new AddTeacherForm();
+        $model = new TeacherForm();
 
         if ($model->load(Yii::$app->request->post())) {
             if ($model->save()) {
@@ -94,6 +94,21 @@ class TeacherController extends AppController
                 'pageSize' => 10, // 10 новостей на странице
             ],
         ]);
-      return $this->render('absent', ['dataProvider' =>$dataProvider]);
+      return $this->render('absent', ['dataProvider' =>$dataProvider]);// TODO: сделать переотправку на предыдущую страницу
+    }
+
+    function actionEdit(){
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => Teacher::find(), // Запрос на выборку опубликованных новостей
+            'sort' => [ // сортировка по умолчанию
+                'defaultOrder' => ['name' => SORT_ASC],
+            ],
+            'pagination' => [ // постраничная разбивка
+                'pageSize' => 10, // 10 новостей на странице
+            ],
+        ]);
+
+        return $this->render('edit', ['dataProvider' =>$dataProvider]);
     }
 }
