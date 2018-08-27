@@ -29,7 +29,7 @@ class TeacherForm extends ActiveRecord
     public function rules()
     {
         return [
-            ['name', 'required' ],
+            ['name', 'required'],
 
         ];
 
