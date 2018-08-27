@@ -42,7 +42,24 @@ class TeacherController extends AppController
 
 
     }*/
-    function actionAbsent()
+    function actionIndex()
+    {
+        //$query = Teacher::find();
+
+//        $teachers = $query->orderBy('name')->asArray()->all();
+        $dataProvider = new ActiveDataProvider([
+            'query' => Teacher::find(), // Запрос на выборку опубликованных новостей
+            'sort' => [ // сортировка по умолчанию
+                'defaultOrder' => ['name' => SORT_ASC],
+            ],
+            'pagination' => [ // постраничная разбивка
+                'pageSize' => 10, // 10 новостей на странице
+            ],
+        ]);
+// передача экземпляра класса в представление
+        return $this->render('index',['dataProvider' =>$dataProvider]);
+    }
+    /*function actionAbsent()
     {
         //$query = Teacher::find();
 
@@ -58,7 +75,7 @@ class TeacherController extends AppController
         ]);
 // передача экземпляра класса в представление
         return $this->render('absent',['dataProvider' =>$dataProvider]);
-    }
+    }*/
     function actionUpdate($id){
         if (Yii::$app->request->isAjax) {
             $this->debug($_POST);
@@ -94,10 +111,10 @@ class TeacherController extends AppController
                 'pageSize' => 10, // 10 новостей на странице
             ],
         ]);
-      return $this->render('absent', ['dataProvider' =>$dataProvider]);// TODO: сделать переотправку на предыдущую страницу
+      return $this->render('index', ['dataProvider' =>$dataProvider]);// TODO: сделать переотправку на предыдущую страницу
     }
 
-    function actionEdit(){
+    /*function actionEdit(){
 
         $dataProvider = new ActiveDataProvider([
             'query' => Teacher::find(), // Запрос на выборку опубликованных новостей
@@ -110,5 +127,5 @@ class TeacherController extends AppController
         ]);
 
         return $this->render('edit', ['dataProvider' =>$dataProvider]);
-    }
+    }*/
 }
