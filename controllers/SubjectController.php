@@ -73,4 +73,23 @@ class SubjectController extends AppController
         return $this->render('update',['subject' => $subject, 'name' => $name, 'short_name' => $short_name, 'hardness' => $hardness, 'teacher'=>$teacher, 'teachers' => $teachers]);
     }
 
+    function actionDelete($id){
+        $query = SubjectForm::find();
+        $teacher = $query->where(['id' => $id])->one();
+        if($teacher!=null) {
+            $teacher->delete();
+        }
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => Subject::find(), // Запрос на выборку опубликованных новостей
+            'sort' => [ // сортировка по умолчанию
+                'defaultOrder' => ['name' => SORT_ASC],
+            ],
+            'pagination' => [ // постраничная разбивка
+                'pageSize' => 10, // 10 новостей на странице
+            ],
+        ]);
+        return $this->render('index', ['dataProvider' =>$dataProvider]);// TODO: сделать переотправку на предыдущую страницу
+    }
+
 }

@@ -16,32 +16,6 @@ use app\models\TeacherForm;
 class TeacherController extends AppController
 {
 
-    public function actionAdd()
-    {
-        if (Yii::$app->request->isAjax) {
-            $this->debug($_POST);
-            return 'test';
-        }
-
-        $model = new TeacherForm();
-
-        if ($model->load(Yii::$app->request->post())) {
-            if ($model->save()) {
-                Yii::$app->session->setFlash('success', 'Данные приняты');
-                return $this->refresh();
-            } else {
-                Yii::$app->session->setFlash('error', 'Ошибка');
-            }
-        }
-
-        return $this->render('add', compact('model'));
-    }
-
- /*   public function actionAbsent()
-    {
-
-
-    }*/
     function actionIndex()
     {
         //$query = Teacher::find();
@@ -58,6 +32,25 @@ class TeacherController extends AppController
         ]);
 // передача экземпляра класса в представление
         return $this->render('index',['dataProvider' =>$dataProvider]);
+    }
+    public function actionAdd()
+    {
+        if (Yii::$app->request->isAjax) {
+            $this->debug($_POST);
+            return 'test';
+        }
+
+        $model = new TeacherForm();
+        if ($model->load(Yii::$app->request->post())) {
+            if ($model->save()) {
+                Yii::$app->session->setFlash('success', 'Данные приняты');
+                return $this->refresh();
+            } else {
+                Yii::$app->session->setFlash('error', 'Ошибка');
+            }
+        }
+
+        return $this->render('add', compact('model'));
     }
     /*function actionAbsent()
     {
