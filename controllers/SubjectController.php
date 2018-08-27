@@ -28,6 +28,27 @@ class SubjectController extends AppController
         return $this->render('index',['dataProvider' =>$dataProvider]);
     }
 
+    function actionAdd(){
+        if (Yii::$app->request->isAjax) {
+            $this->debug($_POST);
+            return 'test';
+        }
+
+        $subject = new SubjectForm();
+        $teachers = $teachers = Teacher::find()->asArray()->all();
+
+        if ($subject->load(Yii::$app->request->post())) {
+            if ($subject->save()) {
+                Yii::$app->session->setFlash('success', 'Данные приняты');
+                return $this->refresh();
+            } else {
+                Yii::$app->session->setFlash('error', 'Ошибка');
+            }
+        }
+
+        return $this->render('add', ['subject' => $subject, 'teachers' => $teachers]);
+    }
+
     function actionUpdate($id){
         if (Yii::$app->request->isAjax) {
             $this->debug($_POST);
