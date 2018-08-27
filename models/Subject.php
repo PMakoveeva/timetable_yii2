@@ -18,9 +18,9 @@ class Subject extends ActiveRecord
     }
 
     public function getTeacher(){
-        return $this->hasOne(Teacher::className(), ['id' => 'teacher']);
+        return $this->hasOne(Teacher::className(), ['teacher' => 'id']);
     }
-    public function getParent()
+   /* public function getParent()
     {
         return $this->hasOne(Subject::className(), ['id' => 'subject']);
     }
@@ -30,7 +30,7 @@ class Subject extends ActiveRecord
         $parent = $this->parent;
 
         return $parent ? $parent->name : '';
-    }
+    }*/
 
 
 

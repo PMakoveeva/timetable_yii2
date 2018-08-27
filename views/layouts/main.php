@@ -51,7 +51,7 @@ AppAsset::register($this);
             ]],
             ['label' => 'Предмет',  'items' => [
                 ['label' => 'Добавить', 'url' => ['/subject/add']],
-                ['label' => 'Изменить', 'url' => ['/subject/edit']],
+                ['label' => 'Изменить', 'url' => ['/subject/index']],
             ]],
             ['label' => 'Кабинеты',  'items' => [
                 ['label' => 'Добавить', 'url' => ['/cabinet/add']],

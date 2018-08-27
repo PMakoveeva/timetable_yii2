@@ -17,7 +17,7 @@ class Teacher extends ActiveRecord
     }
 
     public function getSubjects(){
-        return $this->hasMany(Subject::className(), ['teacher' => 'id']);
+        return $this->hasOne(Subject::className(), ['id' => 'teacher']);
     }
 
 
