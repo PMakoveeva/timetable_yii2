@@ -8,7 +8,7 @@
 use yii\bootstrap\ActiveForm;
 use yii\helpers\ArrayHelper;
 use yii\bootstrap\Html;?>
-<h1>Внести изменения</h1>
+<h1>Добавить новый предмет</h1>
 
 
 <?php if(Yii::$app->session->hasFlash('success')):?>

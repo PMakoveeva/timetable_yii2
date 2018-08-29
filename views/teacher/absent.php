@@ -8,37 +8,45 @@
 use yii\bootstrap\Html;
 use yii\grid\GridView;
 ?>
-<h1>Отсутствие</h1>
+<h1>Добавить отсутствие для <?= $name?></h1>
 
-<?php
+<?php if(Yii::$app->session->hasFlash('success')):?>
+    <div class="alert alert-success alert-dismissible " role="alert">
 
-echo GridView::widget([
-    // полученные данные
-    'dataProvider' => $dataProvider,
-    // колонки с данными
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <?php echo Yii::$app->session->getFlash('success')?>
+    </div>
+<?php endif;?>
 
-    'columns' => [
-        ['class' => 'yii\grid\SerialColumn'],
-        [
-            'label' =>"Имя", // название столбца
-            'attribute' => 'name', // атрибут
-            'filter' => [
-                NULL => 'NULL'
-            ],
-            'value'=>function($data){return $data->name;} // объявлена анонимная функция и получен результат
-        ],
-        [
-            'label' => 'Добавить отсутствие',
-            'attribute' => 'absent',
+<?php  if(Yii::$app->session->hasFlash('error')):?>
+    <div class="alert alert-danger alert-dismissible " role="alert">
 
-            'value' =>  function($data){return  (!empty($data->from) ? Yii::$app->formatter->asDate($data->from) : '');}
-        ],
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <?php echo Yii::$app->session->getFlash('error')?>
 
-        ['class' => 'yii\grid\ActionColumn'],
-    ],
-]);
+    </div>
+<?php endif;?>
 
-?>
+<?php //var_dump($teachers);
+//exit();/
+
+$items = ArrayHelper::map($reasons,'id','name');
+$params = [
+    'prompt'=>'Выберите причину'
+];
+$form = ActiveForm::begin(['options' => ['class' => 'form-horizontal']])?>
+<?= $form->field($teacher, 'from')?>
+<?= $form->field($teacher, 'to')?>
+<?= $form->field($teacher, 'reason')->dropDownList($items);//TODO:создать еще одну таблицу Reasons и выгружать из нее данные для причины в ворме с отсутствием
+//TODO: РАзобраться вообще что происходит с отсутствием!!!?>
+
+
+<?=Html::submitButton('Добавить', ['class' => 'btn btn-success form-group'])?>
+<?php ActiveForm::end()?>
 
 
 

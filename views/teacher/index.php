@@ -7,7 +7,7 @@
  */
 use yii\bootstrap\Html;
 use yii\grid\GridView;
-?>
+use yii\helpers\Url;?>
 <h1>Учителя</h1>
 
 <?php
@@ -18,8 +18,11 @@ echo GridView::widget([
     // колонки с данными
 
     'columns' => [
-        ['class' => 'yii\grid\SerialColumn'],
+        ['class' => 'yii\grid\SerialColumn',],
+
+
         [
+
             'label' =>"Имя", // название столбца
             'attribute' => 'name', // атрибут
             'filter' => [
@@ -30,10 +33,26 @@ echo GridView::widget([
         [
             'label' => 'Отсутствие',
             'attribute' => 'absent',
-            'value' =>  function($data){return  (!empty($data->from) ? Yii::$app->formatter->asDate($data->from) : '');}
+            'format' => 'raw',
+            'value' => function($data){
+                return Html::a(
+                    'Изменить',
+                    "http://timetable_yii.loc/index.php?r=teacher/absent&id=" .$data->id,
+                    [
+                        'title' => 'Смелей вперед!',
+                        'target' => '_blank'
+                    ]
+                );
+            }
+//            'value' =>  function($data){return  (!empty($data->from) ? Yii::$app->formatter->asDate($data->from) : '');}
         ],
 
-        ['class' => 'yii\grid\ActionColumn'],
+        [
+            'class' => 'yii\grid\ActionColumn',
+            'header'=>'Действия',
+            'headerOptions' => ['width' => '80'],
+            'template' => '{update} {delete}{link}',
+        ],
     ],
 ]);
 

@@ -42,7 +42,9 @@ echo GridView::widget([
             }
         ],
 
-        ['class' => 'yii\grid\ActionColumn'],
+        ['class' => 'yii\grid\ActionColumn',
+            'header' => 'Действия',
+            'template' => '{update} {delete}{link}'],
     ],
 ]);
 

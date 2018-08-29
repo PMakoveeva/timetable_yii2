@@ -46,7 +46,7 @@ AppAsset::register($this);
             ['label' => 'Учитель',  'items' => [
                 ['label' => 'Расписание для учителя', 'url' => ['/teacher/schedule']],
                 ['label' => 'Добавить', 'url' => ['/teacher/add']],
-                ['label' => 'Учитель', 'url' => ['/teacher/index']],
+                ['label' => 'Изменить', 'url' => ['/teacher/index']],
 
             ]],
             ['label' => 'Предмет',  'items' => [
