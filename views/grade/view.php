@@ -33,17 +33,37 @@ echo GridView::widget([
 
 
         ],
-[
-            'label' =>"Часов в неделю", // название столбца
+        [
+        'label' =>"Часов в неделю", // название столбца
             'attribute' => 'hour', // атрибут
             'filter' => [
                 NULL => 'NULL'
             ],
             'value'=>function($data){return $data->hour;} // объявлена анонимная функция и получен результат
         ],
-
-        ['class' => 'yii\grid\ActionColumn'],
+        [
+        'label' =>"удалить",
+        'attribute' => 'delete',
+        'format' => 'raw',
+        /*<span class="glyphicon glyphicon-trash"></span>*/
+        'value' => function($data){
+            return Html::a(
+                'удалить',
+                "http://timetable_yii.loc/index.php?r=grade/delete_sub&id=" .$data->id . '&grade=' . $data->grade,
+                [
+                    'title' => '"Это больше никогда нельзя будет вернуть"',
+                    'target' => '_blank'
+                ]
+            );
+        },
+        ],
+        [
+            'class' => 'yii\grid\ActionColumn',
+            'template' => null,//TODO: убрать пустой столбец
+        ],
     ],
-]);
+]);?>
 
-?>
+<?= Html::a('Добавить нагрузку', ['addload', 'id' => $id], ['class' => 'btn btn-success']) ?>
+
+

@@ -2,15 +2,14 @@
 /**
  * Created by PhpStorm.
  * User: Полина
- * Date: 28.08.2018
- * Time: 0:36
+ * Date: 30.08.2018
+ * Time: 3:01
  */
 use yii\bootstrap\ActiveForm;
-use yii\helpers\ArrayHelper;
-use yii\bootstrap\Html;?>
-<h1>Добавить новый предмет</h1>
+use yii\helpers\Html;
+use yii\helpers\ArrayHelper;?>
 
-
+<h1>Добавить нагрузку</h1>
 <?php if(Yii::$app->session->hasFlash('success')):?>
     <div class="alert alert-success alert-dismissible " role="alert">
 
@@ -30,20 +29,16 @@ use yii\bootstrap\Html;?>
         <?php echo Yii::$app->session->getFlash('error')?>
 
     </div>
-<?php endif;?>
+<?php endif;
 
-<?php //var_dump($teachers);
-//exit();
-$items = ArrayHelper::map($teachers,'id','name');
-
-$items[0] = 'Выберите учителя';
+    $items = ArrayHelper::map($subjects,'id','name');
+$items[0] = 'Выберите предмет';
 
 $param = ['options' =>[ '0' => ['Selected' => true]]];?>
 <?php $form = ActiveForm::begin(['options' => ['class' => 'form-horizontal']])?>
-<?= $form->field($subject, 'name')?>
-<?= $form->field($subject, 'short_name')?>
-<?= $form->field($subject, 'teacher')->dropDownList($items, $param);?>
-<?= $form->field($subject, 'hardness')?>
+<?= $form->field($load, 'grade')->textInput(['value' => $grade])?>
+<?= $form->field($load, 'subject')->dropDownList($items, $param);?>
+<?= $form->field($load, 'hour')?>
 
 <?=Html::submitButton('Добавить', ['class' => 'btn btn-success form-group'])?>
 <?php ActiveForm::end()?>

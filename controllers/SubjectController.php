@@ -89,7 +89,7 @@ class SubjectController extends AppController
                 'pageSize' => 10, // 10 новостей на странице
             ],
         ]);
-        return $this->render('index', ['dataProvider' =>$dataProvider]);// TODO: сделать переотправку на предыдущую страницу
+        return $this->render('index', ['dataProvider' =>$dataProvider]);
     }
 
 }
