@@ -1,0 +1,49 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: Полина
+ * Date: 01.09.2018
+ * Time: 16:02
+ */
+
+namespace app\controllers;
+use app\models\ScheduleType;
+use Yii;
+use app\models\ScheduleTypeForm;
+use app\controllers\AppController;
+use yii\data\ActiveDataProvider;
+
+class ScheduleController extends AppController{
+     public function actionIndex(){
+         $dataProvider = new ActiveDataProvider([
+             'query' => ScheduleType::find(),
+             'sort' => [
+                 'defaultOrder' => ['type_name' => SORT_ASC],
+             ],
+             'pagination' => [
+                 'pageSize' => 10,
+             ],
+         ]);
+         return $this->render('index',['dataProvider' =>$dataProvider]);
+     }
+
+     public function actionAdd(){
+         if (Yii::$app->request->isAjax) {
+             $this->debug($_POST);
+             return 'test';
+         }
+
+         $type = new ScheduleTypeForm();
+
+         if ($type->load(Yii::$app->request->post())) {
+             if ($type->save()) {
+                 Yii::$app->session->setFlash('success', 'Данные приняты');
+                 return $this->refresh();
+             } else {
+                 Yii::$app->session->setFlash('error', 'Ошибка');
+             }
+         }
+
+         return $this->render('add', compact('type'));
+     }
+}

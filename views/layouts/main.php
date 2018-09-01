@@ -76,8 +76,8 @@ AppAsset::register($this);
                 . '</li>'
             )*/
             ['label' => 'Типы расписания',  'items' => [
-                ['label' => 'Добавить', 'url' => ['/schedule-type/add']],
-                ['label' => 'Изменить', 'url' => ['/schedule-type/edit']],
+                ['label' => 'Добавить', 'url' => ['/schedule/add']],
+                ['label' => 'Изменить', 'url' => ['/schedule/index']],
             ]],
 
         ],

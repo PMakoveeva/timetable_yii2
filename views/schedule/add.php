@@ -2,14 +2,12 @@
 /**
  * Created by PhpStorm.
  * User: Полина
- * Date: 30.08.2018
- * Time: 3:01
+ * Date: 01.09.2018
+ * Time: 15:49
  */
 use yii\bootstrap\ActiveForm;
-use yii\helpers\Html;
-use yii\helpers\ArrayHelper;?>
-
-<h1>Добавить нагрузку</h1>
+use yii\bootstrap\Html;?>
+<h1>Добавить класс</h1>
 <?php if(Yii::$app->session->hasFlash('success')):?>
     <div class="alert alert-success alert-dismissible " role="alert">
 
@@ -29,16 +27,11 @@ use yii\helpers\ArrayHelper;?>
         <?php echo Yii::$app->session->getFlash('error')?>
 
     </div>
-<?php endif;
+<?php endif;?>
 
-    $items = ArrayHelper::map($subjects,'id','name');
-$items[0] = 'Выберите предмет';
 
-$param = ['options' =>[ '0' => ['Selected' => true]]];?>
 <?php $form = ActiveForm::begin(['options' => ['class' => 'form-horizontal']])?>
-<?= $form->field($load, 'grade')->textInput(['value' => $grade])?>
-<?= $form->field($load, 'subject')->dropDownList($items, $param); //TODO: сделать чтотбы было виднно не только предмет, но и учителя, который его ведет?>
-<?= $form->field($load, 'hour')?>
+<?= $form->field($type, 'type_name')?>
 
 <?=Html::submitButton('Добавить', ['class' => 'btn btn-success form-group'])?>
 <?php ActiveForm::end()?>
