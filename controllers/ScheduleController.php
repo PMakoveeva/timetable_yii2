@@ -46,4 +46,20 @@ class ScheduleController extends AppController{
 
          return $this->render('add', compact('type'));
      }
+     public function actionUpdate($id){
+         $query = ScheduleTypeForm::find();
+         $type = $query->where(['id' => $id])->one();
+
+         $type_name = $type->type_name;
+         if ($type->load(Yii::$app->request->post())) {
+             if ($type->save()) {
+                 Yii::$app->session->setFlash('success', 'Данные изменены');
+                 return $this->refresh();
+             } else {
+                 Yii::$app->session->setFlash('error', 'Ошибка');
+             }
+         }
+         return $this->render('update',['type' => $type, 'type_name' => $type_name]);
+
+     }
 }
