@@ -16,21 +16,17 @@ use app\models\TeacherForm;
 class TeacherController extends AppController
 {
 
-    function actionIndex()
+    public function actionIndex()
     {
-        //$query = Teacher::find();
-
-//        $teachers = $query->orderBy('name')->asArray()->all();
         $dataProvider = new ActiveDataProvider([
-            'query' => Teacher::find(), // Запрос на выборку опубликованных новостей
-            'sort' => [ // сортировка по умолчанию
+            'query' => Teacher::find(),
+            'sort' => [
                 'defaultOrder' => ['name' => SORT_ASC],
             ],
-            'pagination' => [ // постраничная разбивка
-                'pageSize' => 10, // 10 новостей на странице
+            'pagination' => [
+                'pageSize' => 10,
             ],
         ]);
-// передача экземпляра класса в представление
         return $this->render('index',['dataProvider' =>$dataProvider]);
     }
     public function actionAdd()
@@ -54,18 +50,17 @@ class TeacherController extends AppController
     }
     function actionAbsent($id)
     {
-        //$query = Teacher::find();
             $teacher = Teacher::findOne($id);
             $name = $teacher->name;
 //        $teachers = $query->orderBy('name')->asArray()->all();
         $dataProvider = new ActiveDataProvider([
-            'query' => Teacher::find(), // Запрос на выборку опубликованных новостей
+            'query' => Teacher::find(),
 
-            'sort' => [ // сортировка по умолчанию
+            'sort' => [
                 'defaultOrder' => ['name' => SORT_ASC],
             ],
-            'pagination' => [ // постраничная разбивка
-                'pageSize' => 10, // 10 новостей на странице
+            'pagination' => [
+                'pageSize' => 10,
             ],
         ]);
 // передача экземпляра класса в представление

@@ -46,16 +46,16 @@ AppAsset::register($this);
             ['label' => 'Учитель',  'items' => [
                 ['label' => 'Расписание для учителя', 'url' => ['/teacher/schedule']],
                 ['label' => 'Добавить', 'url' => ['/teacher/add']],
-                ['label' => 'Изменить', 'url' => ['/teacher/index']],
+                ['label' => 'Учителя', 'url' => ['/teacher/index']],
 
             ]],
             ['label' => 'Предмет',  'items' => [
                 ['label' => 'Добавить', 'url' => ['/subject/add']],
-                ['label' => 'Изменить', 'url' => ['/subject/index']],
+                ['label' => 'Все предметы', 'url' => ['/subject/index']],
             ]],
             ['label' => 'Кабинеты',  'items' => [
-                ['label' => 'Добавить', 'url' => ['/cabinet/add']],
-                ['label' => 'Изменить', 'url' => ['/cabinet/edit']],
+                ['label' => 'Добавить', 'url' => ['/room/add']],
+                ['label' => 'Все кабинеты', 'url' => ['/room/index']],
             ]],
             ['label' => 'Классы',  'items' => [
                 ['label' => 'Добавить', 'url' => ['/grade/add']],

@@ -75,9 +75,9 @@ class SubjectController extends AppController
 
     function actionDelete($id){
         $query = SubjectForm::find();
-        $teacher = $query->where(['id' => $id])->one();
-        if($teacher!=null) {
-            $teacher->delete();
+        $subject = $query->where(['id' => $id])->one();
+        if($subject!=null) {
+            $subject->delete();
         }
 
         $dataProvider = new ActiveDataProvider([

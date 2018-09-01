@@ -20,6 +20,10 @@ class Teacher extends ActiveRecord
         return $this->hasOne(Subject::className(), ['id' => 'teacher']);
     }
 
+    public function getRooms(){
+        return $this->hasOne(Room::className(), ['id' => 'teacher']);
+    }
+
 
 
 }
