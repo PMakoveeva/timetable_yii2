@@ -62,4 +62,23 @@ class ScheduleController extends AppController{
          return $this->render('update',['type' => $type, 'type_name' => $type_name]);
 
      }
+
+     public function actionDelete($id){
+         $query = ScheduleTypeForm::find();
+         $type = $query->where(['id' => $id])->one();
+         if($type!=null) {
+             $type->delete();
+         }
+
+         $dataProvider = new ActiveDataProvider([
+             'query' => ScheduleType::find(), // Запрос на выборку опубликованных новостей
+             'sort' => [ // сортировка по умолчанию
+                 'defaultOrder' => ['type_name' => SORT_ASC],
+             ],
+             'pagination' => [ // постраничная разбивка
+                 'pageSize' => 10, // 10 новостей на странице
+             ],
+         ]);
+         return $this->render('index', ['dataProvider' =>$dataProvider]);
+     }
 }
