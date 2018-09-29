@@ -1,54 +1,80 @@
 <?php
-
+use yii\grid\GridView;
 /* @var $this yii\web\View */
+use app\models\Schedule;
+use app\models\Subject;
+use yii\helpers\Html;
+use app\models\ScheduleTime;
+use app\models\Room;
 
-$this->title = 'Электронное расписание';
+$this->title = 'Изменения в расписании на ' . $dayName ." ". $date ;
+
 ?>
 <div class="site-index">
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="table-responsive">
+                <table class="table table-bordered schedule">
+                    <thead>
+                    <tr class="text-center">
+                        <th><i class="glyphicon glyphicon-calendar"></i></th>
+                        <?php foreach ($grades as $grade): ?>
+                            <th scope="col"><?= $grade['name'] ?></th>
+                        <?php endforeach; ?>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <?php
+                    for ($i = 1; $i <= 12; $i++) :
+                        if (isset($lessons_id[$i])) $order_id = $lessons_id[$i];
+                        else $order_id = [];
+                        if (isset($lessons[$i])) $order = $lessons[$i];
+                        else $order = [];
+                        $time = isset($time_start[$i - 1]['time_start']) ? ScheduleTime::intToTime($time_start[$i - 1]['time_start'], true) : ['h' => '', 'm' => ''];
+                        ?>
+                        <th><?= $time['h'] ?><sup><?= $time['m'] ?></sup></th>
 
-    <div class="jumbotron">
-        <h1>Congratulations!</h1>
-<!--        --><?//= \app\components\MenuWidget::widget()?>
+                        <?php foreach ($grades as $grade): ?>
+                        <td><?php
+                        if (isset($order[$grade['id']])): ?>
 
-        <p class="lead">You have successfully created your Yii-powered application.</p>
-
-        <p><a class="btn btn-lg btn-success" href="http://www.yiiframework.com">Get started with Yii</a></p>
-    </div>
-
-    <div class="body-content">
-
-        <div class="row">
-            <div class="col-lg-4">
-                <h2>Heading</h2>
-
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                    fugiat nulla pariatur.</p>
-
-                <p><a class="btn btn-default" href="http://www.yiiframework.com/doc/">Yii Documentation &raquo;</a></p>
-            </div>
-            <div class="col-lg-4">
-                <h2>Heading</h2>
-
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                    fugiat nulla pariatur.</p>
-
-                <p><a class="btn btn-default" href="http://www.yiiframework.com/forum/">Yii Forum &raquo;</a></p>
-            </div>
-            <div class="col-lg-4">
-                <h2>Heading</h2>
-
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                    fugiat nulla pariatur.</p>
-
-                <p><a class="btn btn-default" href="http://www.yiiframework.com/extensions/">Yii Extensions &raquo;</a></p>
+                            <?php $room = '';
+                            if(Schedule::getFirstOrderForGrade($grade['id'], $order_id[$grade['id']]))
+                                $room = Room::getNameRoom(Schedule::getRoom($order_id[$grade['id']]));
+                                $teacher=Subject::getTeacher(Subject::getIdSub_ShortName($order[$grade['id']]));
+                                $roomForSchedule = Room::getRoomForSchedule($room, $teacher);
+                            echo $order[$grade['id']] ?><sup><sup><?=$roomForSchedule;?></sup></sup>
+                            <?php if($date>=$time_now):?>
+                                <div class="schedule__update_lessons">
+                                    <?php Html::a(
+                                        '<i class="glyphicon glyphicon-pencil"></i>',
+                                        \yii\helpers\Url::to(['site/update-sub', 'id'=>$order_id[$grade['id']]]))?>
+                                    <?php Html::a(
+                                        '<i class="glyphicon glyphicon-trash"></i>',
+                                        \yii\helpers\Url::to(['site/delete-sub', 'id'=>$order_id[$grade['id']]]))?>
+                                </div>
+                            <?php endif;?>
+                            <?php
+                        else: ?>
+                            <?php if($date>=$time_now):?>
+                                <div class="change">
+                                <?php Html::a(
+                                    '<i class="glyphicon glyphicon-plus"></i>',
+                                    \yii\helpers\Url::to(['site/add-sub', 'grade' => $grade['id'], 'order' => $i, 'day' => $number_day]))?>
+                                    </div>
+                            <?php endif; ?>
+                        <?php endif; ?>
+                    <?php endforeach ?>
+                        </td>
+                        </tr>
+                    <?php endfor ?>
+                    </tbody>
+                </table>
             </div>
         </div>
-
     </div>
+</div>
+
+
 </div>

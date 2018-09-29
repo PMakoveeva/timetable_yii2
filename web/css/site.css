@@ -1,6 +1,7 @@
 html,
 body {
     height: 100%;
+    text-align: center;
 }
 
 .wrap {
@@ -8,6 +9,9 @@ body {
     height: auto;
     margin: 0 auto -60px;
     padding: 0 0 60px;
+}
+th{
+    text-align: center;
 }
 
 .wrap > .container {
@@ -112,4 +116,36 @@ a.desc:after {
 
 .nav > li > form > button.logout:focus {
     outline: none;
+}
+
+table.schedule td>a  {
+    display: block;
+    width: 100%;
+    height: 100%;
+    padding: .75rem;
+}
+
+table.schedule td {
+    padding: 0;
+    position: relative;
+    vertical-align: middle;
+}
+
+
+table .schedule__update_lessons {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: none;
+    background: rgba(255,255,255,.8);
+}
+
+table .schedule__update_lessons a {
+    margin-top: 10px;
+}
+
+table td:hover .schedule__update_lessons {
+    display: block;
 }

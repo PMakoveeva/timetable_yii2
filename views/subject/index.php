@@ -6,12 +6,12 @@
  * Time: 21:54
  */
 use yii\grid\GridView;
-use app\models\Teacher;?>
+use app\models\Teacher;
+$this->title = 'Предметы';?>
 
-<h1>Предметы</h1>
+
 
 <?php
-
 echo GridView::widget([
     // полученные данные
     'dataProvider' => $dataProvider,

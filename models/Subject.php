@@ -16,22 +16,33 @@ class Subject extends ActiveRecord
     {
         return 'subjects';
     }
-
-    public function getTeacher(){
-        return $this->hasOne(Teacher::className(), ['teacher' => 'id']);
+    public function getTeacher0(){
+        return $this->hasOne(Teacher::className(), ['id' => 'teacher']);
     }
-   /* public function getParent()
-    {
-        return $this->hasOne(Subject::className(), ['id' => 'subject']);
+    public static function getSubjectsList(){
+        $subjects = self::find()->with('teacher0')->all();
+        $ret = [];
+        foreach ($subjects as $subject) {
+            if($subject->teacher != null) {
+                $ret[$subject->id] = $subject->name . ' / ' . $subject->teacher0->name;
+            }
+        }
+        return $ret;
     }
-
-    public function getParentName()
-    {
-        $parent = $this->parent;
-
-        return $parent ? $parent->name : '';
-    }*/
-
-
+    public static function getShortName($subjectId){
+        $subject = self::find()->where(['id' => $subjectId])->one();
+        return $subject->short_name;
+    }
+    public static function getTeacher($sub_id){
+        $res = self::find()->where(['id' => $sub_id])->one();
+        return $res->teacher;
+    }
+    public static function getIdSub_ShortName($short_name){
+        $res = self::find()->where(['short_name' => $short_name])->one();
+        if(isset($res->id)) {
+            return $res->id;
+        }
+        return '';
+    }
 
 }

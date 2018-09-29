@@ -92,7 +92,7 @@ class GradeController extends AppController
         return $this->render('index', ['dataProvider' =>$dataProvider]);
     }
 
-    public function actionDelete_sub($id){
+    public function actionDeleteSub($id){
         $grade = $_GET['grade'];
         $query = GradeForm::find();
         $grade = $query->where(['id' => $grade])->one();
@@ -143,14 +143,14 @@ class GradeController extends AppController
         $subjects = Subject::find()->asArray()->all();
         $grade = $id;
         $load = new GradeLoadForm();
-
+        $load->grade=$grade;
 
         if ($load->load(Yii::$app->request->post())) {
             if ($load->save()) {
-                Yii::$app->session->setFlash('success', 'Данные приняты');
+                Yii::$app->session->setFlash('danger', 'Данные приняты');
                 return $this->refresh();
             } else {
-                Yii::$app->session->setFlash('error', 'Ошибка');
+                Yii::$app->session->setFlash('danger', 'Ошибка');
             }
         }
 

@@ -7,8 +7,10 @@
  */
 use yii\bootstrap\Html;
 use yii\grid\GridView;
-use yii\helpers\Url;?>
-<h1>Учителя</h1>
+use yii\helpers\Url;
+$this->title = 'Учителя';
+?>
+
 
 <?php
 

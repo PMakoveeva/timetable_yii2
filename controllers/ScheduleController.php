@@ -9,9 +9,11 @@
 namespace app\controllers;
 use app\models\ScheduleType;
 use Yii;
+use app\models\ScheduleTime;
 use app\models\ScheduleTypeForm;
 use app\controllers\AppController;
 use yii\data\ActiveDataProvider;
+use app\models\TimeForm;
 
 class ScheduleController extends AppController{
      public function actionIndex(){
@@ -80,5 +82,62 @@ class ScheduleController extends AppController{
              ],
          ]);
          return $this->render('index', ['dataProvider' =>$dataProvider]);
+     }
+
+     public function actionView($id){
+         $query = ScheduleType::find();
+         $grade = $query->where(['id' => $id])->one();
+         $name = $grade->type_name;
+         $dataProvider = new ActiveDataProvider([
+             'query' => ScheduleTime::find()->where(['schedule_type' => $id]),
+             'sort' => [ // сортировка по умолчанию
+                 'defaultOrder' => ['time_start' => SORT_ASC],
+             ],
+             'pagination' => [
+                 'pageSize' => 12,
+             ],
+         ]);
+// передача экземпляра класса в представление
+         return $this->render('view',['dataProvider' =>$dataProvider, 'nameType'=> $name, 'id' => $id]);
+     }
+
+     public function actionAddtime($id){
+         $time = new TimeForm();
+         $time->schedule_type=$id;
+         $type = ScheduleType::findOne($id);
+         $name = $type->type_name;
+
+         if ($time->load(Yii::$app->request->post())) {
+             $time->time_start=ScheduleTime::TimeToInt($time->time_start);
+             if ($time->save()) {
+                 Yii::$app->session->setFlash('success', 'Данные приняты');
+                 return $this->refresh();
+             } else {
+                 Yii::$app->session->setFlash('danger', 'Ошибка');
+             }
+         }
+
+         return $this->render('addTime', compact('time', 'name'));
+     }
+
+     public function actionDeleteTime($id, $type){//TODO нужно чтобы в ссылке был тип расписания
+
+             $query = TimeForm::find();
+             $time = $query->where(['id' => $id])->one();
+             if($time!=null) {
+                 $time->delete();
+             }
+
+         $dataProvider = new ActiveDataProvider([
+             'query' => ScheduleTime::find()->where(['schedule_type' => $type]),
+             'sort' => [ // сортировка по умолчанию
+                 'defaultOrder' => ['time_start' => SORT_ASC],
+             ],
+             'pagination' => [
+                 'pageSize' => 12,
+             ],
+         ]);
+             return $this->render('view', ['dataProvider' => $dataProvider, 'id' => $id]);
+
      }
 }

@@ -7,8 +7,9 @@
  */
 use yii\bootstrap\Html;
 use yii\grid\GridView;
-use app\models\Subject;?>
-<h1>Нагрузка для <?=$nameGrade?></h1>
+use app\models\Subject;
+$this->title = "Нагрузка для  $nameGrade";?>
+
 
 <?php
 //debug(function($data){return $data->subject->name;});
@@ -48,18 +49,15 @@ echo GridView::widget([
         /*<span class="glyphicon glyphicon-trash"></span>*/
         'value' => function($data){
             return Html::a(
-                'удалить',
-                "http://timetable_yii.loc/index.php?r=grade/delete_sub&id=" .$data->id . '&grade=' . $data->grade,
+                '<i class="glyphicon glyphicon-trash"></i>',
+                \yii\helpers\Url::to(['grade/delete-sub', 'id'=>$data->id, 'grade' => $data->grade]),
+
                 [
                     'title' => '"Это больше никогда нельзя будет вернуть"',
                     'target' => '_blank'
                 ]
             );
         },
-        ],
-        [
-            'class' => 'yii\grid\ActionColumn',
-            'template' => null,//TODO: убрать пустой столбец
         ],
     ],
 ]);?>

@@ -2,6 +2,8 @@
 
 namespace app\controllers;
 
+use app\models\ScheduleDay;
+use app\models\ScheduleTime;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -9,7 +11,8 @@ use yii\web\Response;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
-
+use app\models\Grade;
+use app\models\Schedule;
 class SiteController extends Controller
 {
     /**
@@ -53,22 +56,29 @@ class SiteController extends Controller
             ],
         ];
     }
-
-    /**
-     * Displays homepage.
-     *
-     * @return string
-     */
-    public function actionIndex()
+    public function actionIndex($id = null)
     {
-        return $this->render('index');
-    }
+        $days_to_edit = Yii::$app->params['days_to_edit'];
+        $last_day = ScheduleDay::getLastDay();
+        $number_day = (isset($id) ? $id : $last_day->id);
+        $number_day = intval($number_day);
 
-    /**
-     * Login action.
-     *
-     * @return Response|string
-     */
+        $day=ScheduleDay::getDay($number_day);
+        $date = date('j.m.Y', $day);
+        $dayName = ScheduleDay::getNameDayOfWeek(date('w', $day));
+
+        $grades = Grade::find()->orderBy(['order' => SORT_DESC ])->AsArray()->all();
+        $grade=array();
+        $lessons = Schedule::getLessons($number_day);
+        $lessons_id=Schedule::getLessons_id($number_day);/// массив содержащий id предметов
+
+        $time = ScheduleDay::getSchedule_dayInTable($number_day);
+        $time_start = ScheduleTime::getTime_start($number_day);
+        $time_now=time()-($days_to_edit*86400);
+
+        return $this->render('index', compact('dayName','date', 'grades', 'time_now', 'last_day', 'number_day',
+            'lessons', 'time', 'time_start', 'lessons_id', 'grade'));
+    }
     public function actionLogin()
     {
         if (!Yii::$app->user->isGuest) {

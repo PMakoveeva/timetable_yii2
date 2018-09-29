@@ -7,9 +7,9 @@
  */
 use yii\bootstrap\Html;
 use yii\grid\GridView;
-?>
-    <h1>Все классы</h1>
 
+    $this->title = 'Все классы';
+?>
 <?php
 
 echo GridView::widget([

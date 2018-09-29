@@ -6,9 +6,9 @@
  * Time: 4:07
  */
 use app\models\Teacher;
-use yii\grid\GridView;?>
+use yii\grid\GridView;
+$this->title = 'Кабинеты';?>
 
-    <h1>Кабинеты</h1>
 
 <?php
 
@@ -35,7 +35,7 @@ echo GridView::widget([
 //                exit();
 
                 $teacher = Teacher::find()->where(['id' => $data->teacher])->asArray()->one();
-                return $teacher['name'];//TODO: вывести имена учителей
+                return $teacher['name'];
 
             }
         ],
