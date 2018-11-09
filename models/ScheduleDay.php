@@ -53,4 +53,34 @@ class ScheduleDay extends ActiveRecord
                 return 'Субботу';
         }
     }
+    public static function getShortNameDayOfWeek($number){
+        switch ($number){
+            case 1:
+                return 'Пн';
+            case 2:
+                return 'Вт';
+            case 3:
+                return 'Ср';
+            case 4:
+                return 'Чт';
+            case 5:
+                return 'Пт';
+            case 6:
+                return 'Сб';
+            case 0:
+                return 'Вс';
+        }
+    }
+    public static function getTypeDay($day){
+        $res = self::find()->where(['id' => $day])->one();
+        if(isset($res->type)) {
+            return $res->type;
+        }
+        return '';
+    }
+
+    public static function getDayslimit6(){
+        $res = self::find()->orderBy(['day' => SORT_DESC])->limit(6)->asArray()->all();
+        return $res;
+    }
 }

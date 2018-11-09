@@ -50,6 +50,10 @@ class ScheduleTime extends ActiveRecord
             //var_dump($res); exit();
             return $res;
     }
+    public static function getTime($type){
+        $res = self::find()->where(['schedule_type' => $type])->orderBy(['time_start' => SORT_ASC])->asArray()->all();
+        return $res;
+    }
     public static function getTime_start($dayId){
         $day = ScheduleDay::find()->where(['id'=>$dayId])->one();//
         $times = self::find()->where(['schedule_type' => $day->type])->orderBy(['time_start' => SORT_ASC])->asArray()->all();

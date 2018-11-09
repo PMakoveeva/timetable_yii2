@@ -67,5 +67,10 @@ class Schedule extends ActiveRecord
         }
         return ' ';
     }
+    public static function getSubjectTeacher($teach_id, $day){
 
+        $teach_id = (int)$teach_id;
+        $subjects = self::find()->innerJoin('subjects', 'schedules.subject = subjects.id')->andWhere(['subjects.teacher' => $teach_id, 'schedules.day' => $day])->orderBy('schedules.order', SORT_DESC)->asArray()->all();
+        return $subjects;
+    }
 }

@@ -29,6 +29,7 @@ class Subject extends ActiveRecord
         }
         return $ret;
     }
+
     public static function getShortName($subjectId){
         $subject = self::find()->where(['id' => $subjectId])->one();
         return $subject->short_name;
@@ -41,6 +42,13 @@ class Subject extends ActiveRecord
         $res = self::find()->where(['short_name' => $short_name])->one();
         if(isset($res->id)) {
             return $res->id;
+        }
+        return '';
+    }
+    public static function getShortName_Id($id){
+        $res = self::find()->where(['id' => $id])->one();
+        if(isset($res->short_name)){
+            return $res->short_name;
         }
         return '';
     }

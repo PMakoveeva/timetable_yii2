@@ -8,6 +8,7 @@
 
 
 namespace app\controllers;
+use app\models\SelectTeacherForm;
 use app\models\Teacher;
 use Yii;
 use yii\data\ActiveDataProvider;
@@ -24,18 +25,13 @@ class TeacherController extends AppController
                 'defaultOrder' => ['name' => SORT_ASC],
             ],
             'pagination' => [
-                'pageSize' => 10,
+                'pageSize' => Yii::$app->params['teachersOnPage'],
             ],
         ]);
         return $this->render('index',['dataProvider' =>$dataProvider]);
     }
     public function actionAdd()
     {
-        if (Yii::$app->request->isAjax) {
-            $this->debug($_POST);
-            return 'test';
-        }
-
         $model = new TeacherForm();
         if ($model->load(Yii::$app->request->post())) {
             if ($model->save()) {
@@ -45,14 +41,12 @@ class TeacherController extends AppController
                 Yii::$app->session->setFlash('error', 'Ошибка');
             }
         }
-
         return $this->render('add', compact('model'));
     }
     function actionAbsent($id)
     {
-            $teacher = Teacher::findOne($id);
-            $name = $teacher->name;
-//        $teachers = $query->orderBy('name')->asArray()->all();
+        $teacher = Teacher::findOne($id);
+        $name = $teacher->name;
         $dataProvider = new ActiveDataProvider([
             'query' => Teacher::find(),
 
@@ -60,10 +54,9 @@ class TeacherController extends AppController
                 'defaultOrder' => ['name' => SORT_ASC],
             ],
             'pagination' => [
-                'pageSize' => 10,
+                'pageSize' => Yii::$app->params['teachersOnPage'],
             ],
         ]);
-// передача экземпляра класса в представление
         return $this->render('absent',['dataProvider' =>$dataProvider, 'id' => $id, 'name' => $name]);
     }
     function actionUpdate($id){
@@ -98,24 +91,31 @@ class TeacherController extends AppController
                 'defaultOrder' => ['name' => SORT_ASC],
             ],
             'pagination' => [ // постраничная разбивка
-                'pageSize' => 10, // 10 новостей на странице
+                'pageSize' => Yii::$app->params['teachersOnPage'],
             ],
         ]);
       return $this->render('index', ['dataProvider' =>$dataProvider]);
     }
+    function actionSchedule($id = null){
 
-    /*function actionEdit(){
+        if (Yii::$app->request->isAjax) {
+            $this->debug($_POST);
+            return 'test';
+        }
+        $load = new SelectTeacherForm();
+        if($load->load(\Yii::$app->request->post())){
 
-        $dataProvider = new ActiveDataProvider([
-            'query' => Teacher::find(), // Запрос на выборку опубликованных новостей
-            'sort' => [ // сортировка по умолчанию
-                'defaultOrder' => ['name' => SORT_ASC],
-            ],
-            'pagination' => [ // постраничная разбивка
-                'pageSize' => 10, // 10 новостей на странице
-            ],
-        ]);
+            var_dump($load->name);
+            $id = $load ->name;
+            $id = (int)$id;
+        }
 
-        return $this->render('edit', ['dataProvider' =>$dataProvider]);
-    }*/
+
+
+        $allTeachers = Teacher::find()->asArray()->all();
+        $teachers = $allTeachers;
+        $teacher = Teacher::getTeacher($id);
+
+        return $this->render('schedule', ['teacher' => $teacher, 'allTeachers' => $allTeachers, 'teachers' => $teacher, 'id'=>$id, 'load'=>$load]);
+    }
 }

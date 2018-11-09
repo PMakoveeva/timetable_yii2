@@ -22,7 +22,7 @@ class SubjectController extends AppController
                 'defaultOrder' => ['name' => SORT_ASC],
             ],
             'pagination' => [
-                'pageSize' => 10,
+                'pageSize' => Yii::$app->params['subjectsOnPage'],
             ],
         ]);
         return $this->render('index',['dataProvider' =>$dataProvider]);
@@ -86,7 +86,7 @@ class SubjectController extends AppController
                 'defaultOrder' => ['name' => SORT_ASC],
             ],
             'pagination' => [ // постраничная разбивка
-                'pageSize' => 10, // 10 новостей на странице
+                'pageSize' => Yii::$app->params['subjectsOnPage'],
             ],
         ]);
         return $this->render('index', ['dataProvider' =>$dataProvider]);

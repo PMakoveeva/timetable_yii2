@@ -1,7 +1,6 @@
 html,
 body {
     height: 100%;
-    text-align: center;
 }
 
 .wrap {
@@ -10,6 +9,7 @@ body {
     margin: 0 auto -60px;
     padding: 0 0 60px;
 }
+td,
 th{
     text-align: center;
 }

@@ -28,6 +28,10 @@ class Grade extends ActiveRecord
         $grade = Self::find()->where(['name' => $name])->asArray()->one();
         return $grade['order'];
     }
+    public static function getGradeName($id){
+        $res = self::find()->where(['id' => $id])->one();
+        return $res->name;
+    }
 
 
 }

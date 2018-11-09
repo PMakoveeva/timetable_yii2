@@ -23,6 +23,22 @@ class Teacher extends ActiveRecord
     public function getRooms(){
         return $this->hasOne(Room::className(), ['id' => 'teacher']);
     }
+    public static function getTeacher($id){
+        $res = self::find()->where(['id' => $id])->asArray()->one();
+        return $res;
+    }
+    public static function getTeachersList(){
+        $teachers = self::find()->orderBy('name')->all();
+        $ret = [];
+        foreach ($teachers as $teacher) {
+            if($teacher->name != null) {
+                $ret[$teacher->id] = $teacher->name;
+            }
+        }
+        return $ret;
+
+
+    }
 
 
 
