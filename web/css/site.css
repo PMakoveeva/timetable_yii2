@@ -147,12 +147,13 @@ table .schedule__update_lessons a {
 }
 table td:hover .schedule__update_lessons {
     display: block !important;
+    padding-top: 10px;
 }
-td a .change {
+td  .change {
     visibility: hidden;
 
 }
 
-td a:hover .change {
+table td:hover .change {
     visibility:visible;
 }

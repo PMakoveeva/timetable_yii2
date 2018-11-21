@@ -50,10 +50,10 @@ $this->title = 'Изменения в расписании на ' . $dayName ." 
                                 <div class="schedule__update_lessons">
                                     <?= Html::a(
                                         '<i class="glyphicon glyphicon-pencil"></i>',
-                                        \yii\helpers\Url::to(['schedule/updatelesson', 'id'=>$order_id[$grade['id']]]))?>
+                                        \yii\helpers\Url::to(['site/updatelesson', 'id'=>$order_id[$grade['id']]]))?>
                                     <?= Html::a(
                                         '<i class="glyphicon glyphicon-trash"></i>',
-                                        \yii\helpers\Url::to(['schedule/deletelesson', 'id'=>$order_id[$grade['id']]]))?>
+                                        \yii\helpers\Url::to(['site/deletelesson', 'id'=>$order_id[$grade['id']]]))?>
                                 </div>
                             <?php endif;?>
                             <?php
@@ -63,7 +63,7 @@ $this->title = 'Изменения в расписании на ' . $dayName ." 
                                 <div class="change">
                                 <?= Html::a(
                                     '<i class="glyphicon glyphicon-plus"></i>',
-                                    \yii\helpers\Url::to(['schedule/addlesson', 'grade' => $grade['id'], 'order' => $i, 'day' => $number_day], ['class' => 'change']))?>
+                                    \yii\helpers\Url::to(['site/addlesson', 'grade' => $grade['id'], 'order' => $i, 'day' => $number_day], ['class' => 'change']))?>
                                     </div>
                             <?php endif; ?>
                         <?php endif; ?>
