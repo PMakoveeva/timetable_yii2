@@ -15,6 +15,10 @@ class Grade extends ActiveRecord
     {
         return 'grades';
     }
+    public  static  function  getGrades(){
+        $grade = Self::find()->orderBy(['order' => SORT_ASC])->asArray()->one();
+        return $grade['id'];
+    }
     public function getSubject(){
         return $this->hasOne(Subject::className(), ['subject' => 'id']);
     }

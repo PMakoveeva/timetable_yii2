@@ -135,7 +135,7 @@ class GradeController extends AppController
         return $this->render('view',['dataProvider' =>$dataProvider, 'nameGrade'=> $name, 'id' => $id]);
     }
 
-    public function actionAddload($id){ //TODO: Почему если Load то не находит action
+    public function actionAddload($id){
         if (Yii::$app->request->isAjax) {
             $this->debug($_POST);
             return 'test';
@@ -147,7 +147,7 @@ class GradeController extends AppController
 
         if ($load->load(Yii::$app->request->post())) {
             if ($load->save()) {
-                Yii::$app->session->setFlash('danger', 'Данные приняты');
+                Yii::$app->session->setFlash('success', 'Данные приняты');
                 return $this->refresh();
             } else {
                 Yii::$app->session->setFlash('danger', 'Ошибка');

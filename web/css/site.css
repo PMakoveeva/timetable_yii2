@@ -145,7 +145,14 @@ table .schedule__update_lessons {
 table .schedule__update_lessons a {
     margin-top: 10px;
 }
-
 table td:hover .schedule__update_lessons {
-    display: block;
+    display: block !important;
+}
+td a .change {
+    visibility: hidden;
+
+}
+
+td a:hover .change {
+    visibility:visible;
 }

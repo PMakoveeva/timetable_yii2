@@ -45,23 +45,25 @@ $this->title = 'Изменения в расписании на ' . $dayName ." 
                                 $teacher=Subject::getTeacher(Subject::getIdSub_ShortName($order[$grade['id']]));
                                 $roomForSchedule = Room::getRoomForSchedule($room, $teacher);
                             echo $order[$grade['id']] ?><sup><sup><?=$roomForSchedule;?></sup></sup>
-                            <?php if($date>=$time_now):?>
+                            <?php
+                            if($day>=$time_now):?>
                                 <div class="schedule__update_lessons">
-                                    <?php Html::a(
+                                    <?= Html::a(
                                         '<i class="glyphicon glyphicon-pencil"></i>',
-                                        \yii\helpers\Url::to(['site/update-sub', 'id'=>$order_id[$grade['id']]]))?>
-                                    <?php Html::a(
+                                        \yii\helpers\Url::to(['site/updatelesson', 'id'=>$order_id[$grade['id']]]))?>
+                                    <?= Html::a(
                                         '<i class="glyphicon glyphicon-trash"></i>',
                                         \yii\helpers\Url::to(['site/delete-sub', 'id'=>$order_id[$grade['id']]]))?>
                                 </div>
                             <?php endif;?>
                             <?php
                         else: ?>
-                            <?php if($date>=$time_now):?>
+                            <?php
+                            if($day>=$time_now):?>
                                 <div class="change">
-                                <?php Html::a(
+                                <?= Html::a(
                                     '<i class="glyphicon glyphicon-plus"></i>',
-                                    \yii\helpers\Url::to(['site/add-sub', 'grade' => $grade['id'], 'order' => $i, 'day' => $number_day]))?>
+                                    \yii\helpers\Url::to(['schedule/addlesson', 'grade' => $grade['id'], 'order' => $i, 'day' => $number_day], ['class' => 'change']))?>
                                     </div>
                             <?php endif; ?>
                         <?php endif; ?>

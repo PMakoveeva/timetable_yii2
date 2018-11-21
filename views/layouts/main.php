@@ -41,8 +41,8 @@ AppAsset::register($this);
         'items' => [
             ['label' => 'Home', 'url' => ['/site/index']],
             ['label' => 'Расписание',  'items' => [
-                ['label' => 'Добавить день', 'url' => ['/schedule-day/add']],
-                ['label' => 'История расписаний', 'url' => ['/schedule-day/edit']],
+                ['label' => 'Добавить день', 'url' => ['/scheduleday/add']],
+                ['label' => 'История расписаний', 'url' => ['/scheduleday/edit']],
             ]],
             ['label' => 'Учитель',  'items' => [
                 ['label' => 'Расписание для учителя', 'url' => ['/teacher/schedule']],
@@ -62,20 +62,6 @@ AppAsset::register($this);
                 ['label' => 'Добавить', 'url' => ['/grade/add']],
                 ['label' => 'Все классы', 'url' => ['/grade/index']],
             ]],
-            /*['label' => 'About', 'url' => ['/site/about']],
-            ['label' => 'Contact', 'url' => ['/site/contact']],
-            Yii::$app->user->isGuest ? (
-                ['label' => 'Login', 'url' => ['/site/login']]
-            ) : (
-                '<li>'
-                . Html::beginForm(['/site/logout'], 'post')
-                . Html::submitButton(
-                    'Logout (' . Yii::$app->user->identity->username . ')',
-                    ['class' => 'btn btn-link logout']
-                )
-                . Html::endForm()
-                . '</li>'
-            )*/
             ['label' => 'Типы расписания',  'items' => [
                 ['label' => 'Добавить', 'url' => ['/schedule/add']],
                 ['label' => 'Изменить', 'url' => ['/schedule/index']],

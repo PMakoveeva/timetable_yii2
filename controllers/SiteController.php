@@ -63,7 +63,9 @@ class SiteController extends Controller
         $number_day = (isset($id) ? $id : $last_day->id);
         $number_day = intval($number_day);
 
+
         $day=ScheduleDay::getDay($number_day);
+        var_dump($day);
         $date = date('j.m.Y', $day);
         $dayName = ScheduleDay::getNameDayOfWeek(date('w', $day));
 
@@ -76,9 +78,11 @@ class SiteController extends Controller
         $time_start = ScheduleTime::getTime_start($number_day);
         $time_now=time()-($days_to_edit*86400);
 
-        return $this->render('index', compact('dayName','date', 'grades', 'time_now', 'last_day', 'number_day',
+        return $this->render('index', compact('dayName','date','day', 'grades', 'time_now', 'last_day', 'number_day',
             'lessons', 'time', 'time_start', 'lessons_id', 'grade'));
     }
+
+
     public function actionLogin()
     {
         if (!Yii::$app->user->isGuest) {

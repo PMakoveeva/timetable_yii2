@@ -19,6 +19,10 @@ class Room extends ActiveRecord
     public function getTeacher(){
         return $this->hasOne(Teacher::className(), ['teacher' => 'id']);
     }
+    public static function getRooms(){ //TODO: сделать автоматическую постановку кабинета
+        $res = self::find()->asArray()->all();
+        return $res;
+    }
     public static function getNameRoom($idRoom){
         $res = self::find()->where(['id' => $idRoom])->one();
         if(isset($res->name)){

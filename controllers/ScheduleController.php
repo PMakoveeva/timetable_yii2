@@ -7,13 +7,17 @@
  */
 
 namespace app\controllers;
+use app\models\Schedule;
 use app\models\ScheduleType;
+use app\models\ScheduleLessonForm;
 use Yii;
+use app\models\Room;
 use app\models\ScheduleTime;
 use app\models\ScheduleTypeForm;
 use app\controllers\AppController;
 use yii\data\ActiveDataProvider;
 use app\models\TimeForm;
+use app\models\Subject;
 
 class ScheduleController extends AppController{
      public function actionIndex(){
@@ -140,4 +144,29 @@ class ScheduleController extends AppController{
              return $this->render('view', ['dataProvider' => $dataProvider, 'id' => $id]);
 
      }
+    public function actionAddlesson($grade, $order, $day){
+        if (Yii::$app->request->isAjax) {
+            $this->debug($_POST);
+            return 'test';
+        }
+
+
+        $subject = Subject::find()->asArray()->all();
+        $lesson = new ScheduleLessonForm();
+        $lesson -> grade = $grade;
+        $lesson -> order = $order;
+        $lesson -> day = $day;
+        $rooms = Room::find()->orderBy(['name' => SORT_ASC])->asArray()->all();
+
+        if ($lesson->load(Yii::$app->request->post())) {
+            if ($lesson->save()) {
+                Yii::$app->session->setFlash('success', 'Данные приняты');
+                return $this->refresh();
+            } else {
+                Yii::$app->session->setFlash('error', 'Ошибка');
+            }
+        }
+
+        return $this->render('addlesson', ['subject' => $subject, 'lesson' => $lesson, 'order' => $order, 'grade' => $grade, 'rooms' => $rooms]);
+    }
 }

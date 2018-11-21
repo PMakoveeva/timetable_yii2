@@ -17,5 +17,9 @@ class ScheduleType extends ActiveRecord
     {
         return 'schedule_types';
     }
+    public  static function getTypes(){
+        $ret = self::find()->asArray()->all();
+        return $ret;
+    }
 
 }

@@ -13,10 +13,20 @@ use yii\db\ActiveRecord;
 
 class ScheduleDay extends ActiveRecord
 {
+
     public static function tableName()
     {
         return 'schedule_day';
     }
+    public  function rules()
+    {
+        return [
+            ['day', 'required'],
+            ['type', 'required'],
+        ];
+
+    }
+
     public static function getLastDay(){
         $day = self::find()->orderBy(['day' => SORT_DESC])->one();
         return $day;
@@ -27,6 +37,10 @@ class ScheduleDay extends ActiveRecord
             return $res->day;
         }
         return '';
+    }
+    public static function getDays(){
+        $ret = self::find()->orderBy(['day' => SORT_DESC])->asArray()->all();
+        return $ret;
     }
     public static function getIdDay($day){
         $res = self::find()->where(['day' => $day])->one();
