@@ -2,21 +2,20 @@
 /**
  * Created by PhpStorm.
  * User: Полина
- * Date: 27.08.2018
- * Time: 22:37
+ * Date: 21.11.2018
+ * Time: 12:37
  */
 use yii\helpers\ArrayHelper;
 use yii\bootstrap\Html;
 use yii\bootstrap\ActiveForm;
+use app\models\Subject;
 $this->title = 'Внести изменения';?>
 <?php
-$items = ArrayHelper::map($teachers,'id','name');
 $params = [];
+$less = \app\models\Schedule::find()->where(['id' => $id])->one();
+$subject = $less->subject;
 $form = ActiveForm::begin(['options' => ['class' => 'form-horizontal']])?>
-<?= $form->field($subject, 'name')->textInput(['value' => $name])?>
-<?= $form->field($subject, 'short_name')->textInput(['value' => $short_name])?>
-<?= $form->field($subject, 'teacher')->dropDownList($items);?>
-<?= $form->field($subject, 'hardness')->textInput(['value' => $hardness])?>
+<?= $form->field($lesson, 'subject')->textInput(['value' => $subject])->dropDownList(Subject::getSubjectsList())?>
 
 <?=Html::submitButton('Изменить', ['class' => 'btn btn-success form-group'])?>
 <?php ActiveForm::end()?>

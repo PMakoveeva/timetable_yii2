@@ -169,4 +169,23 @@ class ScheduleController extends AppController{
 
         return $this->render('addlesson', ['subject' => $subject, 'lesson' => $lesson, 'order' => $order, 'grade' => $grade, 'rooms' => $rooms]);
     }
+    public function actionUpdatelesson($id){
+        if (Yii::$app->request->isAjax) {
+            $this->debug($_POST);
+            return 'test';
+        }
+        $lesson = ScheduleLessonForm::find()->where(['id' => $id])->one();
+        $subject = $lesson->subject;
+
+        if ($lesson->load(Yii::$app->request->post())) {
+            if ($lesson->save()) {
+                Yii::$app->session->setFlash('success', 'Данные приняты');
+                return $this->refresh();
+            } else {
+                Yii::$app->session->setFlash('error', 'Ошибка');
+            }
+        }
+
+        return $this->render('updatelesson', ['subject' => $subject, 'lesson' => $lesson, 'id' => $id]);
+    }
 }
