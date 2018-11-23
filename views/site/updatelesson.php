@@ -16,6 +16,7 @@ $less = \app\models\Schedule::find()->where(['id' => $id])->one();
 $subject = $less->subject;
 $form = ActiveForm::begin(['options' => ['class' => 'form-horizontal']])?>
 <?= $form->field($lesson, 'subject')->textInput(['value' => $subject])->dropDownList(Subject::getSubjectsList())?>
+<?= $form->field($lesson, 'room')->textInput(['value' => $room])->dropDownList($rooms)?>
 
 <?=Html::submitButton('Изменить', ['class' => 'btn btn-success form-group'])?>
 <?php ActiveForm::end()?>

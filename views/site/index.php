@@ -37,14 +37,30 @@ $this->title = 'Изменения в расписании на ' . $dayName ." 
 
                         <?php foreach ($grades as $grade): ?>
                         <td><?php
-                        if (isset($order[$grade['id']])): ?>
 
-                            <?php $room = '';
+                        if (isset($order[$grade['id']])): ?>
+                            <?php $room = Room::getNameRoom(Schedule::getRoom($order_id[$grade['id']]));
+                             if($room == ''){
+                                 $subjectR = Schedule::find()->where(['id' => $order_id[$grade['id']]])->one()->subject;
+                                 $teacherR = Subject::getTeacher($subjectR);
+                                 if(Room::find()->where(['teacher' => $teacherR])->one()){
+                                     $room = Room::find()->where(['teacher' => $teacherR])->one()->name;
+                                     $roomId = Room::find()->where(['teacher' => $teacherR])->one()->id;
+                                     $less = \app\models\ScheduleLessonForm::find()->where(['id' => $order_id[$grade['id']]])->one();
+                                     $less -> room = $roomId;
+                                 }
+                                 else{
+                                     $roomId = Room::GetEmptyRoom($day, $order);
+                                     $room = Room::getNameRoom($roomId);
+                                     $less = \app\models\ScheduleLessonForm::find()-> where(['id' => $order_id[$grade['id']]])->one();
+                                     $less -> room = $roomId;
+
+                                 }
+                             }
                             if(Schedule::getFirstOrderForGrade($grade['id'], $order_id[$grade['id']]))
-                                $room = Room::getNameRoom(Schedule::getRoom($order_id[$grade['id']]));
+
                                 $teacher=Subject::getTeacher(Subject::getIdSub_ShortName($order[$grade['id']]));
-                                $roomForSchedule = Room::getRoomForSchedule($room, $teacher);
-                            echo $order[$grade['id']] ?><sup><sup><?=$roomForSchedule;?></sup></sup>
+                            echo $order[$grade['id']] ?><sup><sup><?=$room;?></sup></sup>
                             <?php
                             if($day>=$time_now):?>
                                 <div class="schedule__update_lessons">

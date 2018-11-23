@@ -27,6 +27,7 @@ class Teacher extends ActiveRecord
         $res = self::find()->where(['id' => $id])->asArray()->one();
         return $res;
     }
+
     public static function getTeachersList(){
         $teachers = self::find()->orderBy('name')->all();
         $ret = [];

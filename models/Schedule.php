@@ -60,10 +60,10 @@ class Schedule extends ActiveRecord
         }
     return $lessons;
     }
-    public static function getRoom($room){
-        $res = self::find()->where(['room' => $room])->one();
+    public static function getRoom($id){
+        $res = Schedule::find()->where(['id' => $id])->one();
         if(isset($res)) {
-            return $res->id;
+            return $res->room;
         }
         return ' ';
     }

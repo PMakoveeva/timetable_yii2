@@ -20,7 +20,7 @@ class ScheduleLessonForm extends ActiveRecord
     public function rules()
     {
         return [
-            [['subject', 'day', 'order', 'grade'], 'required']
+            [['subject', 'day', 'order', 'grade', 'room'], 'required']
         ];
     }
 

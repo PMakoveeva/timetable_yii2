@@ -91,7 +91,9 @@ class SiteController extends Controller
         $lesson -> grade = $grade;
         $lesson -> order = $order;
         $lesson -> day = $day;
-        $rooms = Room::find()->orderBy(['name' => SORT_ASC])->asArray()->all();
+        /*$rooms = Room::find()->orderBy(['name' => SORT_ASC])->asArray()->all();*/
+        $ret = Schedule::find()->select('room')->where(['day' => $day, 'order' => $order]);
+        $rooms = Room::find()->select('name')->where(['NOT IN', 'id', $ret])->indexBy('id')->column();
 
         if ($lesson->load(Yii::$app->request->post())) {
             if ($lesson->save()) {
@@ -102,12 +104,16 @@ class SiteController extends Controller
             }
         }
 
-        return $this->render('addlesson', ['subject' => $subject, 'lesson' => $lesson, 'order' => $order, 'grade' => $grade, 'rooms' => $rooms]);
+        return $this->render('addlesson', ['subject' => $subject, 'lesson' => $lesson, 'order' => $order, 'grade' => $grade, 'rooms' => $rooms, 'day' => $day]);
     }
 
     public function actionUpdatelesson($id){
         $lesson = ScheduleLessonForm::find()->where(['id' => $id])->one();
         $subject = $lesson->subject;
+        $room = $lesson -> room;
+        $day = $lesson->day;
+        $order = $lesson->order;
+        $rooms = Room::GetEmptyRoom($day, $order);
 
         if ($lesson->load(Yii::$app->request->post())) {
             if ($lesson->save()) {
@@ -118,7 +124,7 @@ class SiteController extends Controller
             }
         }
 
-        return $this->render('updatelesson', ['subject' => $subject, 'lesson' => $lesson, 'id' => $id]);
+        return $this->render('updatelesson', ['subject' => $subject, 'lesson' => $lesson, 'id' => $id, 'room' => $room, 'rooms'=> $rooms]);
     }
 
     public function actionDeletelesson($id){

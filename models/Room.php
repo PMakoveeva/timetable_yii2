@@ -11,6 +11,21 @@ use yii\db\ActiveRecord;
 
 class Room extends ActiveRecord
 {
+    public static function GetEmptyRoom($day, $order){
+        $busy = [];
+        $ret = Schedule::find()->select('room')->where(['day' => $day, 'order' => $order]);
+
+       /* for($i=0; $i<count($ret); $i++){
+            if($ret[$i]['room']!=null){
+                $busy[$i]=$ret[$i]['room'];
+            }
+        }*/
+        $room = Room::find()->select('name')->orderBy(['name'=>SORT_ASC])->where(['NOT IN', 'id', $ret])->indexBy('id')->column();
+        /*$roomsql = $room->createCommand()->getRawSql();
+        var_dump($roomsql);
+        exit();*/
+        return $room;
+    }
     public static function tableName()
     {
         return 'rooms';
@@ -28,7 +43,7 @@ class Room extends ActiveRecord
         if(isset($res->name)){
             return $res->name;
         }
-        return $res->name;
+        return '';
     }
     public static function getRoomForSchedule($room, $teacher){
         if(!empty($room)){
