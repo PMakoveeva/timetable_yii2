@@ -23,7 +23,7 @@ $param = ['options' =>[ '0' => ['Selected' => true]]];?>
     'type' => DatePicker::TYPE_COMPONENT_APPEND,
     'pluginOptions' => [
         'todayHighlight' => true,
-        'format' => 'dd/mm/yyyy',
+        'format' => 'yyyy/mm/dd',
         'autoclose' => true
     ]
 ]);?>

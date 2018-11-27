@@ -30,10 +30,13 @@ class ScheduledayController extends AppController
         $day = new ScheduleDayForm();
         $data = Yii::$app->request->post('day');
 
-        /*var_dump($data);
-        exit();*/
+
+
         $day->load(Yii::$app->request->post());
+        /*var_dump($day->day);
+        exit();*/
         if ($day->load(Yii::$app->request->post())) {
+            $day->day = strtotime($day->day);
             /*var_dump($day->day);
             exit();*/
             if ($day->save()) {

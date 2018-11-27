@@ -23,7 +23,6 @@ class ScheduleDayForm extends ActiveRecord
         return [
             ['day', 'required'],
             ['day', 'safe'],
-            ['day', 'date', 'format' => 'php:dd/mm/yyyy'],
             ['type', 'required'],
         ];
 
