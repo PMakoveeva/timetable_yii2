@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use app\models\ScheduleDay;
 use app\models\ScheduleTime;
+use app\models\Teacher;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -91,95 +92,113 @@ class SiteController extends Controller
         $lesson -> grade = $grade;
         $lesson -> order = $order;
         $lesson -> day = $day;
-        /*$rooms = Room::find()->orderBy(['name' => SORT_ASC])->asArray()->all();*/
-        $ret = Schedule::find()->select('room')->where(['day' => $day, 'order' => $order]);
-        $rooms = Room::find()->select('name')->where(['NOT IN', 'id', $ret])->indexBy('id')->column();
-
-        if ($lesson->load(Yii::$app->request->post())) {
-            if ($lesson->save()) {
-                Yii::$app->session->setFlash('success', 'Данные приняты');
-                return $this->refresh();
-            } else {
-                Yii::$app->session->setFlash('error', 'Ошибка');
-            }
-        }
-
-        return $this->render('addlesson', ['subject' => $subject, 'lesson' => $lesson, 'order' => $order, 'grade' => $grade, 'rooms' => $rooms, 'day' => $day]);
-    }
-
-    public function actionUpdatelesson($id){
-        $lesson = ScheduleLessonForm::find()->where(['id' => $id])->one();
-        $subject = $lesson->subject;
-        $room = $lesson -> room;
-        $day = $lesson->day;
-        $order = $lesson->order;
         $rooms = Room::GetEmptyRoom($day, $order);
 
         if ($lesson->load(Yii::$app->request->post())) {
-            if ($lesson->save()) {
-                Yii::$app->session->setFlash('success', 'Данные приняты');
+            /*var_dump($lesson->subject);
+            exit();*/
+            $gradeQ = Grade::getGradeName($lesson->grade);
+            $subjectQ = $lesson->subject;
+            $lessonQ = $lesson;
+            if ($lessonQ = Schedule::hasRepeat($gradeQ, $subjectQ, $order, $day)) {
+                $teach = Teacher::getTeacher(Subject::getTeacher($subject));
+                $sub = Subject::find()->select('id')->where(['teacher' => $teach['id']]);
+                $ret = Schedule::find()->where(['IN', 'subject', $sub])->andWhere(['order' => $order, 'day' => $day])->one();
+                $grade12 = Grade::getGradeName($ret->grade);
+                /*var_dump($lesson);
+                exit();*/
+                $res = Teacher::getTeacher(Subject::getTeacher($subjectQ));
+                $teacherQ = $res['name'];
+
+                Yii::$app->session->setFlash('danger', "Совпадение уроков! В этот день у $teacherQ уже стоит $lesson->order урок у $grade12");
                 return $this->refresh();
-            } else {
-                Yii::$app->session->setFlash('error', 'Ошибка');
+            } else
+                if($lesson->save()){
+                    Yii::$app->session->setFlash('success', 'Данные приняты');
+                    return $this->refresh();
+                }
             }
+
+            return $this->render('addlesson', ['subject' => $subject, 'lesson' => $lesson, 'order' => $order, 'grade' => $grade, 'rooms' => $rooms, 'day' => $day]);
         }
 
-        return $this->render('updatelesson', ['subject' => $subject, 'lesson' => $lesson, 'id' => $id, 'room' => $room, 'rooms'=> $rooms]);
-    }
+        public function actionUpdatelesson($id){
+            $lesson = ScheduleLessonForm::find()->where(['id' => $id])->one();
 
-    public function actionDeletelesson($id){
-        $dayId = Schedule::find()->where(['id' => $id])->one()->day;
-        $lesson = ScheduleLessonForm::find()->where(['id' => $id])->one();
-        if($lesson!=null) {
-            $lesson->delete();
+            $subject = $lesson->subject;
+            $roomId = $lesson -> room;
+            $room = Room::getNameRoom($roomId);
+            $day = $lesson->day;
+            $order = $lesson->order;
+            $rooms = Room::GetEmptyRoom($day, $order);
+            /*var_dump($rooms);
+            exit();*/
+
+            if ($lesson->load(Yii::$app->request->post())) {
+                if ($lesson->save()) {
+                    Yii::$app->session->setFlash('success', 'Данные приняты');
+                    return $this->refresh();
+                } else {
+                    Yii::$app->session->setFlash('error', 'Ошибка');
+                }
+            }
+
+            return $this->render('updatelesson', ['subject' => $subject, 'lesson' => $lesson, 'id' => $id, 'room' => $room, 'rooms'=> $rooms]);
         }
 
-        $days_to_edit = Yii::$app->params['days_to_edit'];
-        $last_day = ScheduleDay::getLastDay();
-        $number_day = (isset($dayId) ? $dayId : $last_day->id);
-        $number_day = intval($number_day);
+        public function actionDeletelesson($id){
+            $dayId = Schedule::find()->where(['id' => $id])->one()->day;
+            $lesson = ScheduleLessonForm::find()->where(['id' => $id])->one();
+            if($lesson!=null) {
+                $lesson->delete();
+            }
+
+            $days_to_edit = Yii::$app->params['days_to_edit'];
+            $last_day = ScheduleDay::getLastDay();
+            $number_day = (isset($dayId) ? $dayId : $last_day->id);
+            $number_day = intval($number_day);
 
 
-        $day=ScheduleDay::getDay($number_day);
-        $date = date('j.m.Y', $day);
-        $dayName = ScheduleDay::getNameDayOfWeek(date('w', $day));
+            $day=ScheduleDay::getDay($number_day);
+            $date = date('j.m.Y', $day);
+            $dayName = ScheduleDay::getNameDayOfWeek(date('w', $day));
 
-        $grades = Grade::find()->orderBy(['order' => SORT_DESC ])->AsArray()->all();
-        $grade=array();
-        $lessons = Schedule::getLessons($number_day);
-        $lessons_id=Schedule::getLessons_id($number_day);/// массив содержащий id предметов
+            $grades = Grade::find()->orderBy(['order' => SORT_DESC ])->AsArray()->all();
+            $grade=array();
+            $lessons = Schedule::getLessons($number_day);
+            $lessons_id=Schedule::getLessons_id($number_day);/// массив содержащий id предметов
 
-        $time = ScheduleDay::getSchedule_dayInTable($number_day);
-        $time_start = ScheduleTime::getTime_start($number_day);
-        $time_now=time()-($days_to_edit*86400);
+            $time = ScheduleDay::getSchedule_dayInTable($number_day);
+            $time_start = ScheduleTime::getTime_start($number_day);
+            $time_now=time()-($days_to_edit*86400);
 
-        return $this->render('index', compact('dayName','date','day', 'grades', 'time_now', 'last_day', 'number_day',
-            'lessons', 'time', 'time_start', 'lessons_id', 'grade'));
-    }
-
-
-    public function actionLogin()
-    {
-        if (!Yii::$app->user->isGuest) {
-            return $this->goHome();
+            return $this->render('index', compact('dayName','date','day', 'grades', 'time_now', 'last_day', 'number_day',
+                'lessons', 'time', 'time_start', 'lessons_id', 'grade'));
         }
 
-        $model = new LoginForm();
-        if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            return $this->goBack();
+
+        public function actionLogin()
+        {
+            if (!Yii::$app->user->isGuest) {
+                return $this->goHome();
+            }
+
+            $model = new LoginForm();
+            if ($model->load(Yii::$app->request->post()) && $model->login()) {
+                return $this->goBack();
+            }
+
+            $model->password = '';
+            return $this->render('login', [
+                'model' => $model,
+            ]);
         }
 
-        $model->password = '';
-        return $this->render('login', [
-            'model' => $model,
-        ]);
-    }
-
-    /**
-     * Logout action.
-     *
-     * @return Response
-     */
+        /**
+         * Logout action.
+         *
+         * @return Response
+         */
     public function actionLogout()
     {
         Yii::$app->user->logout();

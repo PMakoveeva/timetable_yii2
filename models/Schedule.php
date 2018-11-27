@@ -9,6 +9,7 @@
 namespace app\models;
 
 
+use phpDocumentor\Reflection\Types\Self_;
 use yii\db\ActiveRecord;
 use app\models\Subject;
 
@@ -72,5 +73,20 @@ class Schedule extends ActiveRecord
         $teach_id = (int)$teach_id;
         $subjects = self::find()->innerJoin('subjects', 'schedules.subject = subjects.id')->andWhere(['subjects.teacher' => $teach_id, 'schedules.day' => $day])->orderBy('schedules.order', SORT_DESC)->asArray()->all();
         return $subjects;
+    }
+    public static function hasRepeat($grade, $subject, $order, $day){
+        $teacher=Teacher::getTeacher(Subject::getTeacher($subject));
+        $sub=Subject::find()->select('id')->where(['teacher' => $teacher['id']]);
+        $ret = self::find()->where(['IN', 'subject', $sub])->andWhere(['order' => $order, 'day' => $day])->one();
+        /*$roomsql = $ret->createCommand()->getRawSql();
+        var_dump($roomsql);
+        exit();*/
+        if(empty($ret)){
+            return null;
+        }
+        else{
+            return $ret;
+        }
+
     }
 }

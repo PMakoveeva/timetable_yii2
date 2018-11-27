@@ -16,9 +16,11 @@ $nameGrade = Grade::getGradeName($grade);
 $this->title = "Добавить $order урок у $nameGrade";
 $items[0] = 'Выберите предмет';
 
+
+
 $param = ['options' =>[ '0' => ['Selected' => true]]];?>
 <?php $form = ActiveForm::begin(['options' => ['class' => 'form-horizontal']])?>
-<?= $form->field($lesson, 'subject')->dropDownList(Subject::getSubjectsList(), $param);?>
+<?= $form->field($lesson, 'subject')->dropDownList(Subject::getSubjectsList(), $param); ?>
 <?= $form->field($lesson, 'room')->dropDownList($rooms, $param);?>
 <?=Html::submitButton('Добавить', ['class' => 'btn btn-success form-group'])?>
 <?php ActiveForm::end()?>

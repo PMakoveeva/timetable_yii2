@@ -20,7 +20,7 @@ class Room extends ActiveRecord
                 $busy[$i]=$ret[$i]['room'];
             }
         }*/
-        $room = Room::find()->select('name')->orderBy(['name'=>SORT_ASC])->where(['NOT IN', 'id', $ret])->indexBy('id')->column();
+        $room = Room::find()->select('name')->where(['NOT IN', 'id', $ret])->orderBy(['name'=>SORT_ASC])->indexBy('id')->column();
         /*$roomsql = $room->createCommand()->getRawSql();
         var_dump($roomsql);
         exit();*/

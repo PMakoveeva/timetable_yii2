@@ -9,6 +9,7 @@
 namespace app\controllers;
 
 namespace app\controllers;
+use app\models\ScheduleDayForm;
 use app\models\ScheduleType;
 use Yii;
 use app\models\ScheduleDay;
@@ -26,8 +27,15 @@ class ScheduledayController extends AppController
             return 'test';
         }
         $types = ScheduleType::getTypes();
-        $day = new ScheduleDay();
+        $day = new ScheduleDayForm();
+        $data = Yii::$app->request->post('day');
+
+        /*var_dump($data);
+        exit();*/
+        $day->load(Yii::$app->request->post());
         if ($day->load(Yii::$app->request->post())) {
+            /*var_dump($day->day);
+            exit();*/
             if ($day->save()) {
                 Yii::$app->session->setFlash('success', 'Данные приняты');
                 return $this->refresh();

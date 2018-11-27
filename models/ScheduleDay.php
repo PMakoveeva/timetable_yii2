@@ -18,14 +18,6 @@ class ScheduleDay extends ActiveRecord
     {
         return 'schedule_day';
     }
-    public  function rules()
-    {
-        return [
-            ['day', 'required'],
-            ['type', 'required'],
-        ];
-
-    }
 
     public static function getLastDay(){
         $day = self::find()->orderBy(['day' => SORT_DESC])->one();
