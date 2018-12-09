@@ -39,10 +39,10 @@ AppAsset::register($this);
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],
         'items' => [
-            ['label' => 'Home', 'url' => ['/site/index']],
+            /*['label' => 'Home', 'url' => ['/site/index']],*/
             ['label' => 'Расписание',  'items' => [
                 ['label' => 'Добавить день', 'url' => ['/scheduleday/add']],
-                ['label' => 'История расписаний', 'url' => ['/scheduleday/edit']],
+                /*['label' => 'История расписаний', 'url' => ['/scheduleday/edit']],*/
             ]],
             ['label' => 'Учитель',  'items' => [
                 ['label' => 'Расписание для учителя', 'url' => ['/teacher/schedule']],

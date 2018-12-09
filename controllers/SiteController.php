@@ -100,13 +100,19 @@ class SiteController extends Controller
             $gradeQ = Grade::getGradeName($lesson->grade);
             $subjectQ = $lesson->subject;
             $lessonQ = $lesson;
+            $res = Teacher::getTeacher(Subject::getTeacher($subjectQ));
+            $teacherQ = $res['id'];
             if ($lessonQ = Schedule::hasRepeat($gradeQ, $subjectQ, $order, $day)) {
                 $teach = Teacher::getTeacher(Subject::getTeacher($subject));
-                $sub = Subject::find()->select('id')->where(['teacher' => $teach['id']]);
-                $ret = Schedule::find()->where(['IN', 'subject', $sub])->andWhere(['order' => $order, 'day' => $day])->one();
-                $grade12 = Grade::getGradeName($ret->grade);
-                /*var_dump($lesson);
-                exit();*/
+                $sub1 = Subject::find()->where(['teacher' => $teacherQ])->one();
+                $sub = $sub1->id;
+                /*$ret = Schedule::find()->where(['IN', 'subject', $sub])->andWhere(['order' => $order, 'day' => $day])->one();*/
+                /*var_dump($ret);
+                exit();
+                $grade12 = Grade::getGradeName($ret->grade);*/
+                $ret = Schedule::find()->where(['order' => $order, 'day' => $day, 'subject' => $sub])->one();
+                $grade12 = Grade::getGradeName($ret -> grade);
+
                 $res = Teacher::getTeacher(Subject::getTeacher($subjectQ));
                 $teacherQ = $res['name'];
 
