@@ -18,6 +18,13 @@ class ScheduleDayForm extends ActiveRecord
     {
         return 'schedule_day';
     }
+    public function attributeLabels()
+    {
+        return [
+            'type' => 'Тип нового дня',
+            'day' => 'День',
+        ];
+    }
     public  function rules()
     {
         return [

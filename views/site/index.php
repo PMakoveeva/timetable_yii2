@@ -6,6 +6,9 @@ use app\models\Subject;
 use yii\helpers\Html;
 use app\models\ScheduleTime;
 use app\models\Room;
+use yii\bootstrap\Modal;
+use yii\bootstrap\ActiveForm;
+use app\models\ScheduleLessonForm;
 
 $this->title = 'Изменения в расписании на ' . $dayName ." ". $date ;
 
@@ -66,7 +69,8 @@ $this->title = 'Изменения в расписании на ' . $dayName ." 
                                 <div class="schedule__update_lessons">
                                     <?= Html::a(
                                         '<i class="glyphicon glyphicon-pencil"></i>',
-                                        \yii\helpers\Url::to(['site/updatelesson', 'id'=>$order_id[$grade['id']]]))?>
+                                        \yii\helpers\Url::to(['site/updatelesson', 'id'=>$order_id[$grade['id']]]))
+                                    ?>
                                     <?= Html::a(
                                         '<i class="glyphicon glyphicon-trash"></i>',
                                         \yii\helpers\Url::to(['site/deletelesson', 'id'=>$order_id[$grade['id']]]))?>
@@ -80,7 +84,7 @@ $this->title = 'Изменения в расписании на ' . $dayName ." 
                                 <?= Html::a(
                                     '<i class="glyphicon glyphicon-plus"></i>',
                                     \yii\helpers\Url::to(['site/addlesson', 'grade' => $grade['id'], 'order' => $i, 'day' => $number_day], ['class' => 'change']))?>
-                                    </div>
+                                </div>
                             <?php endif; ?>
                         <?php endif; ?>
                     <?php endforeach ?>

@@ -122,6 +122,10 @@ class GradeController extends AppController
         $query = GradeForm::find();
         $grade = $query->where(['id' => $id])->one();
         $name = $grade->name;
+        $subjects = Subject::find()->asArray()->all();
+        $gradeId = $id;
+        $load = new GradeLoadForm();
+        $load->grade=$gradeId;
         $dataProvider = new ActiveDataProvider([
             'query' => GradeSubject::find()->where(['grade' => $id]), // Запрос на выборку опубликованных новостей
             'sort' => [ // сортировка по умолчанию
@@ -131,8 +135,16 @@ class GradeController extends AppController
                 'pageSize' => 10, // 10 новостей на странице
             ],
         ]);
+        if ($load->load(Yii::$app->request->post())) {
+            if ($load->save()) {
+                Yii::$app->session->setFlash('success', 'Данные приняты');
+                return $this->refresh();
+            } else {
+                Yii::$app->session->setFlash('danger', 'Ошибка');
+            }
+        }
 // передача экземпляра класса в представление
-        return $this->render('view',['dataProvider' =>$dataProvider, 'nameGrade'=> $name, 'id' => $id]);
+        return $this->render('view',['dataProvider' =>$dataProvider, 'nameGrade'=> $name, 'id' => $id, 'load'=>$load, 'subjects' => $subjects, 'grade' => $gradeId]);
     }
 
     public function actionAddload($id){
@@ -155,6 +167,28 @@ class GradeController extends AppController
         }
 
         return $this->render('addLoad', compact('load', 'subjects', 'grade'));
+    }
+    function actionSchedule($id = null){
+
+        if (Yii::$app->request->isAjax) {
+            $this->debug($_POST);
+            return 'test';
+        }
+        $load = new GradeForm();
+        if($load->load(\Yii::$app->request->post())){
+
+            var_dump($load->name);
+            $id = $load ->name;
+            $id = (int)$id;
+        }
+
+
+
+        $allGrades = Grade::find()->asArray()->all();
+        $grades = $allGrades;
+        $grade = Grade::find()->where(['id' => $id])->asArray()->one();
+
+        return $this->render('schedule', ['grade' => $grade, 'allGrades' => $allGrades, 'grades' => $grades, 'id'=>$id, 'load'=>$load]);
     }
 
 }

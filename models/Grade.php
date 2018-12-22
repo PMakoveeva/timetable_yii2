@@ -36,6 +36,19 @@ class Grade extends ActiveRecord
         $res = self::find()->where(['id' => $id])->one();
         return $res->name;
     }
+    public static function getGradesList(){
+        $grades = self::find()->orderBy('order')->all();
+        $ret = [];
+        foreach ($grades as $grade) {
+            if($grade->name != null) {
+                $ret[$grade->id] = $grade->name;
+            }
+        }
+        return $ret;
+
+
+    }
+
 
 
 }

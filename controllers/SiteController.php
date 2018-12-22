@@ -82,6 +82,15 @@ class SiteController extends Controller
         $time_start = ScheduleTime::getTime_start($number_day);
         $time_now=time()-($days_to_edit*86400);
 
+        /*$idLess = ;
+        $lesson = ScheduleLessonForm::find()->where(['id' => $idLess])->one();//переделать ID
+
+        $subject = $lesson->subject;
+        $roomId = $lesson -> room;
+        $room = Room::getNameRoom($roomId);
+        $order = $lesson->order;
+        $rooms = Room::GetEmptyRoom($day, $order);*/
+
         return $this->render('index', compact('dayName','date','day', 'grades', 'time_now', 'last_day', 'number_day',
             'lessons', 'time', 'time_start', 'lessons_id', 'grade'));
     }

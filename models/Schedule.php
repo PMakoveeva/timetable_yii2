@@ -88,5 +88,12 @@ class Schedule extends ActiveRecord
             return $ret;
         }
 
+
+    }
+    public static function getSubjectGrade($grade_id, $day){
+
+        $grade_id = (int)$grade_id;
+        $subjects = self::find()->innerJoin('subjects', 'schedules.subject=subjects.id')->andWhere(['schedules.grade' => $grade_id, 'schedules.day' => $day])->orderBy('schedules.order', SORT_DESC)->asArray()->all();
+        return $subjects;
     }
 }

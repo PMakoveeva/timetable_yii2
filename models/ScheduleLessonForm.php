@@ -16,7 +16,13 @@ class ScheduleLessonForm extends ActiveRecord
     {
         return 'schedules';
     }
-
+    public function attributeLabels()
+    {
+        return [
+            'subject' => 'Название предмета / учитель',
+            'room' => 'Номер кабинета',
+        ];
+    }
     public function rules()
     {
         return [

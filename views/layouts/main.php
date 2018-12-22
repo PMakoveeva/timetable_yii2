@@ -40,33 +40,43 @@ AppAsset::register($this);
         'options' => ['class' => 'navbar-nav navbar-right'],
         'items' => [
             /*['label' => 'Home', 'url' => ['/site/index']],*/
-            ['label' => 'Расписание',  'items' => [
-                ['label' => 'Добавить день', 'url' => ['/scheduleday/add']],
-                /*['label' => 'История расписаний', 'url' => ['/scheduleday/edit']],*/
-            ]],
+
             ['label' => 'Учитель',  'items' => [
-                ['label' => 'Расписание для учителя', 'url' => ['/teacher/schedule']],
-                ['label' => 'Добавить', 'url' => ['/teacher/add']],
-                ['label' => 'Учителя', 'url' => ['/teacher/index']],
+                ['label' => 'Расписание для учителя', 'url' => ['/teacher/schedule'], 'visible' => Yii::$app->user->isGuest,],
+                ['label' => 'Добавить', 'url' => ['/teacher/add'], 'visible' => !Yii::$app->user->isGuest,],
+                ['label' => 'Учителя', 'url' => ['/teacher/index'], 'visible' => !Yii::$app->user->isGuest,],
 
             ]],
-            ['label' => 'Предмет',  'items' => [
+            ['label' => 'Классы',  'items' => [
+                ['label' => 'Расписание для класса', 'url' => ['/grade/schedule'], 'visible' =>Yii::$app->user->isGuest],
+                ['label' => 'Добавить', 'url' => ['/grade/add'], 'visible' => !Yii::$app->user->isGuest,],
+                ['label' => 'Все классы', 'url' => ['/grade/index'], 'visible' => !Yii::$app->user->isGuest,],
+            ]],
+
+            ['label' => 'Предмет',  'visible' => !Yii::$app->user->isGuest, 'items' => [
                 ['label' => 'Добавить', 'url' => ['/subject/add']],
                 ['label' => 'Все предметы', 'url' => ['/subject/index']],
             ]],
-            ['label' => 'Кабинеты',  'items' => [
+            ['label' => 'Кабинеты', 'visible' => !Yii::$app->user->isGuest, 'items' => [
                 ['label' => 'Добавить', 'url' => ['/room/add']],
                 ['label' => 'Все кабинеты', 'url' => ['/room/index']],
             ]],
-            ['label' => 'Классы',  'items' => [
-                ['label' => 'Добавить', 'url' => ['/grade/add']],
-                ['label' => 'Все классы', 'url' => ['/grade/index']],
-            ]],
-            ['label' => 'Типы расписания',  'items' => [
+            ['label' => 'Типы расписания',  'visible' => !Yii::$app->user->isGuest, 'items' => [
                 ['label' => 'Добавить', 'url' => ['/schedule/add']],
                 ['label' => 'Изменить', 'url' => ['/schedule/index']],
-            ]],
-
+                ]],
+            Yii::$app->user->isGuest ? (
+            ['label' => 'Вход', 'url' => ['/site/login']]
+            ) : (
+                '<li>'
+                . Html::beginForm(['/site/logout'], 'post')
+                . Html::submitButton(
+                    'Выход (' . Yii::$app->user->identity->username . ')',
+                    ['class' => 'btn btn-link logout']
+                )
+                . Html::endForm()
+                . '</li>'
+            )
         ],
     ]);
     NavBar::end();

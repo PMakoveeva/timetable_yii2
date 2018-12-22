@@ -52,5 +52,13 @@ class Subject extends ActiveRecord
         }
         return '';
     }
+    public static function getFullName($id){
+        $res = self::find()->where(['id' => $id])->one();
+        if(isset($res->full_name)){
+            return $res->full_name;
+        }
+        return '';
+    }
+
 
 }

@@ -8,6 +8,9 @@
 use yii\bootstrap\Html;
 use yii\grid\GridView;
 use app\models\Subject;
+use yii\bootstrap\Modal;
+use yii\helpers\ArrayHelper;
+use yii\bootstrap\ActiveForm;
 $this->title = "Нагрузка для  $nameGrade";?>
 
 
@@ -62,6 +65,29 @@ echo GridView::widget([
     ],
 ]);?>
 
-<?= Html::a('Добавить нагрузку', ['addload', 'id' => $id], ['class' => 'btn btn-success']) ?>
+<?php
+    Modal::begin([
+        'options' => [
+            'id'=>'addLoad',
+        ],
+        'size' => 'modal-st',
+        'header' => 'Добавить нагрузку',
+        'toggleButton' => [
+            'class' => 'btn btn-success',
+            'tag' => 'Button',
+            'label' => 'Добавить нагрузку'
+        ],
 
+    ]);
+$items = ArrayHelper::map($subjects,'id','name');
+$items[0] = 'Выберите предмет';
 
+$param = ['options' =>[ '0' => ['Selected' => true]]];?>
+<?php $form = ActiveForm::begin(['options' => ['class' => 'form-horizontal']])?>
+<?= $form->field($load, 'subject')->dropDownList(Subject::getSubjectsList(), $param);?>
+<?= $form->field($load, 'hour')?>
+
+<?=Html::submitButton('Добавить', ['class' => 'btn btn-success form-group'])?>
+<?php ActiveForm::end()?>
+<?php Modal::end();
+?>
