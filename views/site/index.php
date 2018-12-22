@@ -65,7 +65,7 @@ $this->title = 'Изменения в расписании на ' . $dayName ." 
                                 $teacher=Subject::getTeacher(Subject::getIdSub_ShortName($order[$grade['id']]));
                             echo $order[$grade['id']] ?><sup><sup><?=$room;?></sup></sup>
                             <?php
-                            if($day>=$time_now):?>
+                            if($day>=$time_now && !Yii::$app->user->isGuest):?>
                                 <div class="schedule__update_lessons">
                                     <?= Html::a(
                                         '<i class="glyphicon glyphicon-pencil"></i>',
@@ -79,7 +79,7 @@ $this->title = 'Изменения в расписании на ' . $dayName ." 
                             <?php
                         else: ?>
                             <?php
-                            if($day>=$time_now):?>
+                            if($day>=$time_now && !Yii::$app->user->isGuest):?>
                                 <div class="change">
                                 <?= Html::a(
                                     '<i class="glyphicon glyphicon-plus"></i>',
