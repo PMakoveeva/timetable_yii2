@@ -55,7 +55,7 @@ echo GridView::widget([
 
                 return Html::a(
                     '<i class="glyphicon glyphicon-trash"></i>',
-                    \yii\helpers\Url::to(['schedule/deleteTime', 'id'=>$data->id]),
+                    \yii\helpers\Url::to(['schedule/delete-time', 'id'=>$data->id, 'type'=>$data->schedule_type]),
 
                     [
                         'title' => 'Удалить',

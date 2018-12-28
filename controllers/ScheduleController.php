@@ -130,21 +130,26 @@ class ScheduleController extends AppController{
 
              $query = TimeForm::find();
              $time = $query->where(['id' => $id])->one();
-             var_dump($time);
-             exit();
+
+            $grade = ScheduleType::find()->where(['id' => $id])->one();
+            $type = ScheduleTime::find()->where(['id' => $id])->one()->schedule_type;
+            $name = $grade->type_name;
+             /*var_dump($time);
+             exit();*/
              if($time!=null) {
                  $time->delete();
              }
-
-         $dataProvider = new ActiveDataProvider([
-             'query' => ScheduleTime::find()->where(['schedule_type' => $type]),
-             'sort' => [ // сортировка по умолчанию
-                 'defaultOrder' => ['time_start' => SORT_ASC],
-             ],
-             'pagination' => [
-                 'pageSize' => 12,
-             ],
-         ]);
+             $load = new ScheduleTime();
+             $load->type=$type;
+             $dataProvider = new ActiveDataProvider([
+                 'query' => ScheduleTime::find()->where(['schedule_type' => $type]),
+                 'sort' => [ // сортировка по умолчанию
+                     'defaultOrder' => ['time_start' => SORT_ASC],
+                 ],
+                 'pagination' => [
+                     'pageSize' => 12,
+                 ],
+             ]);
              return $this->render('view', ['dataProvider' => $dataProvider, 'id' => $id]);
      }
 }
