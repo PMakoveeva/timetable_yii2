@@ -47,20 +47,25 @@ echo GridView::widget([
         ],
 
         [
-            'class' => 'yii\grid\ActionColumn',
-            'buttons' => [
-                /*'delete' => function () {
-                    foreach ($_GET->id as $id) {
-                        return Html::a('', '\schedule\deleteTime&id=' . "$id" . '&type=' . "$type", ['class' => 'glyphicon glyphicon-trash']);
+            'label' =>"Действия",
+            'attribute' => 'delete',
+            'format' => 'raw',
+            /*<span class="glyphicon glyphicon-trash"></span>*/
+            'value' => function($data){
 
-                    }
-                }*/
-            ],
-            'header' => 'Действия',
-            'template' => '{update} {delete}{link}' //TODO сделать удаление через мусорку
+                return Html::a(
+                    '<i class="glyphicon glyphicon-trash"></i>',
+                    \yii\helpers\Url::to(['schedule/deleteTime', 'id'=>$data->id]),
+
+                    [
+                        'title' => 'Удалить',
+                        'target' => '_blank'
+                    ]
+                );
+            },
         ],
+
     ],
 ]);?>
-
 <?= Html::a('Добавить время звонка', ['addtime', 'id' => $id], ['class' => 'btn btn-success']) ?>
 

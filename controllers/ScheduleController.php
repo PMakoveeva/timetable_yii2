@@ -88,6 +88,8 @@ class ScheduleController extends AppController{
          return $this->render('index', ['dataProvider' =>$dataProvider]);
      }
 
+
+
      public function actionView($id){
          $query = ScheduleType::find();
          $grade = $query->where(['id' => $id])->one();
@@ -124,10 +126,12 @@ class ScheduleController extends AppController{
          return $this->render('addTime', compact('time', 'name'));
      }
 
-     public function actionDeleteTime($id, $type){//TODO нужно чтобы в ссылке был тип расписания
+     public function actionDeleteTime($id){//TODO нужно чтобы в ссылке был тип расписания
 
              $query = TimeForm::find();
              $time = $query->where(['id' => $id])->one();
+             var_dump($time);
+             exit();
              if($time!=null) {
                  $time->delete();
              }

@@ -99,22 +99,26 @@ class GradeController extends AppController
         $name = $grade->name;
         $grade = $_GET['grade'];
         $subject = GradeLoadForm::find()->Where([ 'grade' => $grade, 'id' => $id])->one();
+        $subjects = Subject::find()->asArray()->all();
 //        $grade = $subject->grade;
 
         if($subject!=null) {
             $subject->delete();
         }
 
+        $load = new GradeLoadForm();
+        $gradeId = $grade;
+        $load->grade=$gradeId;
         $dataProvider = new ActiveDataProvider([
-            'query' => GradeSubject::find()->where(['grade' => $grade]),
-            'sort' => [
-                'defaultOrder' => ['hour' => SORT_ASC],
+            'query' => GradeSubject::find()->where(['grade' => $gradeId]), // Запрос на выборку опубликованных новостей
+            'sort' => [ // сортировка по умолчанию
+                'defaultOrder' => ['id' => SORT_ASC],
             ],
-            'pagination' => [
-                'pageSize' => 10,
-            ]
+            'pagination' => [ // постраничная разбивка
+                'pageSize' => 10, // 10 новостей на странице
+            ],
         ]);
-        return $this->render('view', ['dataProvider' =>$dataProvider, 'nameGrade' =>$name, 'id' => $grade]);
+        return $this->render('view', ['dataProvider' =>$dataProvider, 'nameGrade' =>$name, 'id' => $grade,  'subjects'=>$subjects, 'load'=>$load]);
 
     }
 
