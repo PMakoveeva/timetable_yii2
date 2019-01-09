@@ -158,6 +158,7 @@ class GradeController extends AppController
         }
         $subjects = Subject::find()->asArray()->all();
         $grade = $id;
+
         $load = new GradeLoadForm();
         $load->grade=$grade;
 
@@ -180,8 +181,7 @@ class GradeController extends AppController
         }
         $load = new GradeForm();
         if($load->load(\Yii::$app->request->post())){
-
-            var_dump($load->name);
+            //var_dump($load->name);
             $id = $load ->name;
             $id = (int)$id;
         }

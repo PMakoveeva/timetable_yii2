@@ -9,8 +9,10 @@ use app\models\Room;
 use yii\bootstrap\Modal;
 use yii\bootstrap\ActiveForm;
 use app\models\ScheduleLessonForm;
+use yii\bootstrap\Button;
+use yii\helpers\Url;
 
-$this->title = 'Изменения в расписании на ' . $dayName ." ". $date ;
+$this->title = 'Изменения в расписании на ' . $date ." ". $dayName ;
 
 ?>
 <div class="site-index">
@@ -79,20 +81,29 @@ $this->title = 'Изменения в расписании на ' . $dayName ." 
                             <?php
                         else: ?>
                             <?php
-                            if($day>=$time_now && !Yii::$app->user->isGuest):?>
+                            if(($day>=$time_now) && (!Yii::$app->user->isGuest)):?>
                                 <div class="change">
                                 <?= Html::a(
                                     '<i class="glyphicon glyphicon-plus"></i>',
                                     \yii\helpers\Url::to(['site/addlesson', 'grade' => $grade['id'], 'order' => $i, 'day' => $number_day], ['class' => 'change']))?>
                                 </div>
-                            <?php endif; ?>
-                        <?php endif; ?>
+                            <?php endif;?>
+                        <?php endif;?>
                     <?php endforeach ?>
                         </td>
                         </tr>
                     <?php endfor ?>
+
+
                     </tbody>
                 </table>
+                <?php if(($day>=$time_now) && (!Yii::$app->user->isGuest)):?>
+                    <?=
+                    Html::a(
+                        'Копировать данные с предыдушего дня',
+                        \yii\helpers\Url::to(['site/copy','idDay' => $number_day,], ['class' => 'btn btn-success']));
+                    ?>
+                <?php endif;?>
             </div>
         </div>
     </div>

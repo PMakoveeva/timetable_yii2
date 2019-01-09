@@ -45,6 +45,8 @@ class ScheduleDay extends ActiveRecord
     }
     public static function getNameDayOfWeek($number){
         switch ($number){
+            case 0:
+                return 'Воскресенье';
             case 1:
                 return 'Понедельник';
             case 2:
@@ -85,8 +87,24 @@ class ScheduleDay extends ActiveRecord
         return '';
     }
 
-    public static function getDayslimit6(){
-        $res = self::find()->orderBy(['day' => SORT_DESC])->limit(6)->asArray()->all();
-        return $res;
+    public static function getDayslimit(){
+        $days = self::find()->orderBy(['day' => SORT_DESC])->limit(8)->all();
+        $ret = [];
+        foreach ($days as $day){
+            if($day->id != null) {
+                $ret[$day->id] = date('j.m.Y', $day->day);
+            }
+        }
+        return $ret;
+    }
+    public static function getSubjectsList(){
+        $subjects = self::find()->with('teacher0')->all();
+        $ret = [];
+        foreach ($subjects as $subject) {
+            if($subject->teacher != null) {
+                $ret[$subject->id] = $subject->name . ' / ' . $subject->teacher0->name;
+            }
+        }
+        return $ret;
     }
 }

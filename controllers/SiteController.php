@@ -2,7 +2,9 @@
 
 namespace app\controllers;
 
+use app\models\CopyDayForm;
 use app\models\ScheduleDay;
+use app\models\ScheduleDayForm;
 use app\models\ScheduleTime;
 use app\models\Teacher;
 use Yii;
@@ -69,9 +71,9 @@ class SiteController extends Controller
 
 
         $day=ScheduleDay::getDay($number_day);
-        var_dump($day);
+        //var_dump($day);
         $date = date('j.m.Y', $day);
-        $dayName = ScheduleDay::getNameDayOfWeek(date('w', $day));
+        $dayName = ScheduleDay::getShortNameDayOfWeek(date('w', $day));
 
         $grades = Grade::find()->orderBy(['order' => SORT_DESC ])->AsArray()->all();
         $grade=array();
@@ -93,6 +95,29 @@ class SiteController extends Controller
 
         return $this->render('index', compact('dayName','date','day', 'grades', 'time_now', 'last_day', 'number_day',
             'lessons', 'time', 'time_start', 'lessons_id', 'grade'));
+    }
+
+    public function actionCopy($idDay = null)
+    {
+        $idDay = intval($idDay);
+        $day=ScheduleDay::getDay($idDay);
+        $load = new CopyDayForm();
+        $date = date('j.m.Y', $day);
+        $dayName = ScheduleDay::getShortNameDayOfWeek(date('w', $day));
+
+        if ($load->load(\Yii::$app->request->post())) {
+            $copyDay = $load->id;
+            $copyDay = intval($copyDay);
+            Schedule::copyDay($copyDay, $idDay);
+           /*var_dump($load);
+           exit();*/
+        }
+        /*;
+        var_dump($load->id);
+        exit();
+        */
+
+        return $this->render('copy',compact('idDay', 'dayName', 'date', 'day', 'load'));
     }
 
     public function actionAddlesson($grade, $order, $day){

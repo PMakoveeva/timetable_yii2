@@ -12,6 +12,8 @@ namespace app\models;
 use phpDocumentor\Reflection\Types\Self_;
 use yii\db\ActiveRecord;
 use app\models\Subject;
+use Yii;
+use yii\db\Command;
 
 class Schedule extends ActiveRecord
 {
@@ -39,6 +41,15 @@ class Schedule extends ActiveRecord
         }
         return $lessons;
     }
+    public static function copyDay($copyId, $dayId)
+    {
+        if ($copyId != null) {
+            $post = Yii::$app->db->createCommand("insert into schedules select null, $dayId, `subject`, `order`, `grade`, `room` from schedules where `day`=". $copyId)
+                ->execute();
+
+        }
+    }
+
     public static function getLessons_id($day){
         $data=Schedule::getSchedule($day);
         $lessons=[];

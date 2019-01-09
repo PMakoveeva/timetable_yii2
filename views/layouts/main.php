@@ -64,7 +64,10 @@ AppAsset::register($this);
             ['label' => 'Типы расписания',  'visible' => !Yii::$app->user->isGuest, 'items' => [
                 ['label' => 'Добавить', 'url' => ['/schedule/add']],
                 ['label' => 'Изменить', 'url' => ['/schedule/index']],
-                ]],
+            ]],
+            ['label' => 'День', 'visible' =>!Yii::$app->user->isGuest,  'items' => [
+                ['label' => 'Добавить день', 'url' => ['/scheduleday/add'], ],
+            ]],
             Yii::$app->user->isGuest ? (
             ['label' => 'Вход', 'url' => ['/site/login']]
             ) : (
