@@ -24,19 +24,27 @@ class Subject extends ActiveRecord
         $ret = [];
         foreach ($subjects as $subject) {
             if($subject->teacher != null) {
+                //var_dump($subject->teacher0->name);
+
                 $ret[$subject->id] = $subject->name . ' / ' . $subject->teacher0->name;
             }
         }
         return $ret;
     }
 
+
     public static function getShortName($subjectId){
         $subject = self::find()->where(['id' => $subjectId])->one();
         return $subject->short_name;
     }
     public static function getTeacher($sub_id){
-        $res = self::find()->where(['id' => $sub_id])->one();
-        return $res->teacher;
+        $res = self::find()->where(['id' => $sub_id])->asArray()->one();
+        return $res['teacher'];
+    }
+    public static function getTeacherName($sub_id){
+        $res = self::find()->where(['id' => $sub_id])->asArray()->one();
+        $ret = Teacher::getTeacher($res['teacher']);
+        return $ret['name'];
     }
     public static function getIdSub_ShortName($short_name){
         $res = self::find()->where(['short_name' => $short_name])->one();
@@ -54,11 +62,10 @@ class Subject extends ActiveRecord
     }
     public static function getFullName($id){
         $res = self::find()->where(['id' => $id])->one();
-        if(isset($res->full_name)){
-            return $res->full_name;
+        if(isset($res->name)){
+            return $res->name;
         }
         return '';
     }
-
 
 }

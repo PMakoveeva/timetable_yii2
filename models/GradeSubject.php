@@ -17,8 +17,17 @@ class GradeSubject extends ActiveRecord
         return 'grade_subject';
     }
 
-    public function getSubject(){
+    public function getSubject0(){
         return $this->hasMany(Subject::className(), ['id' => 'subject']);
+    }
+    public static function getSubjectsListGrade($grade){
+        $subjects = GradeSubject::find()->where(['grade' => $grade])->with('subject0')->all();
+        $ret = [];
+        foreach ($subjects as $subject) {
+                //var_dump($subject->subject);
+                $ret[$subject->subject] = Subject::getFullName($subject->subject) . ' / ' . Subject::getTeacherName($subject->subject);
+        }
+        return $ret;
     }
 
 
