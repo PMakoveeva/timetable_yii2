@@ -31,6 +31,7 @@ class RoomForm extends ActiveRecord
         return [
             ['name', 'required'],
             [['name'], 'integer', 'max' => \Yii::$app->params['maxNumRoom'] , 'min' => \Yii::$app->params['minNumRoom']],
+            [['teacher'], 'integer'],
         ];
 
     }

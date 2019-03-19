@@ -41,8 +41,9 @@ $title='Расписание для учителя';
         <div class="row">
             <?php foreach (ScheduleDay::getDayslimit6() as $day): ?>
                 <div class="col-md-4 col-lg-2 ">
-                    <h3><?=date('j.m', $day['day'])?> <?=ScheduleDay::getShortNameDayOfWeek(date('w', $day['day']))?></h3>
-
+                    <?php /*var_dump($day);
+                    */?>
+                    <h3><?=date('j.m', $day)?> <?=ScheduleDay::getShortNameDayOfWeek(date('w', $day))?></h3>
                     <div class="table-responsive">
                         <table class="table table-bordered teacher-schedule">
                             <thead>
@@ -50,7 +51,8 @@ $title='Расписание для учителя';
                             </thead>
                             <tbody>
                             <tr>
-                                <?php  foreach (Schedule::getSubjectTeacher($teachers['id'], $day['id']) as $subTeach):?>
+
+                                <?php  foreach (Schedule::getSubjectTeacher($teachers['id'], $day) as $subTeach):?>
 
                                 <th><?=ScheduleTime::intToTime(ScheduleTime::getTime(ScheduleDay::getTypeDay($subTeach['day']))[$subTeach['order']-1]['time_start'])?></th>
                                 <td><?=Grade::getGradeName($subTeach['grade'])?> / <?=Subject::getShortName_Id($subTeach['subject'])?></td>

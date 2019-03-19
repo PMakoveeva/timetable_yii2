@@ -16,14 +16,15 @@ $this->title = 'Добавить новый прелмет';?>
 //exit();
 $items = ArrayHelper::map($teachers,'id','name');
 
-$items[0] = 'Выберите учителя';
 
 $param = ['options' =>[ '0' => ['Selected' => true]]];?>
 <?php $form = ActiveForm::begin(['options' => ['class' => 'form-horizontal']])?>
 <?= $form->field($subject, 'name')?>
 <?= $form->field($subject, 'short_name')?>
 <?= $form->field($subject, 'teacher')->dropDownList($items, $param);?>
-<?= $form->field($subject, 'hardness')?>
-
+<?= $form->field($subject, 'group')->dropDownList([
+'0' => '1',
+'1' => '2',
+]);?>
 <?=Html::submitButton('Добавить', ['class' => 'btn btn-success form-group'])?>
 <?php ActiveForm::end()?>

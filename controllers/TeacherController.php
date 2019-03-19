@@ -105,13 +105,7 @@ class TeacherController extends AppController
         $load = new SelectTeacherForm();
         if($load->load(\Yii::$app->request->post())){
 
-            var_dump($load->name);
-            $id = $load ->name;
-            $id = (int)$id;
         }
-
-
-
         $allTeachers = Teacher::find()->asArray()->all();
         $teachers = $allTeachers;
         $teacher = Teacher::getTeacher($id);

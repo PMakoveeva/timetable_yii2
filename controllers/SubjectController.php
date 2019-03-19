@@ -37,11 +37,14 @@ class SubjectController extends AppController
         $subject = new SubjectForm();
         $teachers = $teachers = Teacher::find()->asArray()->all();
 
+
         if ($subject->load(Yii::$app->request->post())) {
+            $subject->hardness=1;
             if ($subject->save()) {
                 Yii::$app->session->setFlash('success', 'Данные приняты');
                 return $this->refresh();
             } else {
+                var_dump($subject);
                 Yii::$app->session->setFlash('error', 'Ошибка');
             }
         }

@@ -80,7 +80,9 @@ class Schedule extends ActiveRecord
         return ' ';
     }
     public static function getSubjectTeacher($teach_id, $day){
-
+        /*var_dump($teach_id);
+        var_dump($day);*/
+        $day = ScheduleDay::getIdDay($day);
         $teach_id = (int)$teach_id;
         $subjects = self::find()->innerJoin('subjects', 'schedules.subject = subjects.id')->andWhere(['subjects.teacher' => $teach_id, 'schedules.day' => $day])->orderBy('schedules.order', SORT_DESC)->asArray()->all();
         return $subjects;
@@ -102,7 +104,7 @@ class Schedule extends ActiveRecord
 
     }
     public static function getSubjectGrade($grade_id, $day){
-
+        $day = ScheduleDay::getIdDay($day);
         $grade_id = (int)$grade_id;
         $subjects = self::find()->innerJoin('subjects', 'schedules.subject=subjects.id')->andWhere(['schedules.grade' => $grade_id, 'schedules.day' => $day])->orderBy('schedules.order', SORT_DESC)->asArray()->all();
         return $subjects;

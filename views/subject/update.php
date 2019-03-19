@@ -16,7 +16,10 @@ $form = ActiveForm::begin(['options' => ['class' => 'form-horizontal']])?>
 <?= $form->field($subject, 'name')->textInput(['value' => $name])?>
 <?= $form->field($subject, 'short_name')->textInput(['value' => $short_name])?>
 <?= $form->field($subject, 'teacher')->dropDownList($items);?>
-<?= $form->field($subject, 'hardness')->textInput(['value' => $hardness])?>
+<?= $form->field($subject, 'group')->dropDownList([
+    '0' => '1',
+    '1' => '2',
+]);?>
 
 <?=Html::submitButton('Изменить', ['class' => 'btn btn-success form-group'])?>
 <?php ActiveForm::end()?>

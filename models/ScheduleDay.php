@@ -97,6 +97,16 @@ class ScheduleDay extends ActiveRecord
         }
         return $ret;
     }
+    public static function getDayslimit6(){
+        $days = self::find()->orderBy(['day' => SORT_DESC])->limit(6)->all();
+        $ret = [];
+        foreach ($days as $day){
+            if($day->id != null) {
+                $ret[$day->id] =  $day->day;
+            }
+        }
+        return $ret;
+    }
     public static function getSubjectsList(){
         $subjects = self::find()->with('teacher0')->all();
         $ret = [];

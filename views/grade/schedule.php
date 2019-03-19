@@ -41,7 +41,7 @@ else{
         <div class="row">
             <?php foreach (ScheduleDay::getDayslimit6() as $day): ?>
                 <div class="col-md-4 col-lg-2 ">
-                    <h3><?=date('j.m', $day['day'])?> <?=ScheduleDay::getShortNameDayOfWeek(date('w', $day['day']))?></h3>
+                    <h3><?=date('j.m', $day)?> <?=ScheduleDay::getShortNameDayOfWeek(date('w', $day))?></h3>
 
                     <div class="table-responsive">
                         <table class="table table-bordered teacher-schedule">
@@ -52,7 +52,7 @@ else{
                             <tr>
 
                                 <?php
-                                foreach (Schedule::getSubjectGrade($grade['id'], $day['id']) as $subGrade):
+                                foreach (Schedule::getSubjectGrade($grade['id'], $day) as $subGrade):
                                 ?>
 
                                 <th><?=ScheduleTime::intToTime(ScheduleTime::getTime(ScheduleDay::getTypeDay($subGrade['day']))[$subGrade['order']-1]['time_start'])?></th>

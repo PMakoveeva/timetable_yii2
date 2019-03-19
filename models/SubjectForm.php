@@ -7,8 +7,6 @@
  */
 
 namespace app\models;
-
-
 use yii\db\ActiveRecord;
 
 class SubjectForm extends ActiveRecord
@@ -24,7 +22,8 @@ class SubjectForm extends ActiveRecord
             'name' => 'Название предмета',
             'short_name' => 'Сокращение',
             'hardness' => 'Сложность',
-            'teacher' => 'Учитель'
+            'teacher' => 'Учитель',
+            'group' => 'Колическтво групп',
         ];
     }
 
@@ -33,6 +32,7 @@ class SubjectForm extends ActiveRecord
         return  [
             [['name', 'short_name', 'hardness', 'teacher'], 'required'],
             [['name', 'short_name', 'teacher'],'string'],
+            ['group','integer'],
             [['hardness'], 'integer', 'min'=>1, 'max'=>10],
         ];
     }
