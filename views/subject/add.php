@@ -8,7 +8,7 @@
 use yii\bootstrap\ActiveForm;
 use yii\helpers\ArrayHelper;
 use yii\bootstrap\Html;
-$this->title = 'Добавить новый прелмет';?>
+$this->title = 'Добавить новый предмет';?>
 
 
 
