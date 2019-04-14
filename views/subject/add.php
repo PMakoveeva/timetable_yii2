@@ -9,9 +9,6 @@ use yii\bootstrap\ActiveForm;
 use yii\helpers\ArrayHelper;
 use yii\bootstrap\Html;
 $this->title = 'Добавить новый предмет';?>
-
-
-
 <?php //var_dump($teachers);
 //exit();
 $items = ArrayHelper::map($teachers,'id','name');
